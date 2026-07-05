@@ -6,7 +6,7 @@
 
 **Date:** 2026-07-05 (pre SHA freeze)
 
-**Commit SHA:** _(to be filled after commit)_
+**Commit SHA:** `0d07a01` (pre-registration freeze)
 
 ---
 
