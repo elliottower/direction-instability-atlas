@@ -1,0 +1,23 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+
+# Large data files (downloaded, not committed)
+data/jump_cp/*.parquet
+data/prism/Repurposing_Public_24Q2_LFC_COLLAPSED.csv
+data/prism/Repurposing_Public_24Q2_LFC.csv
+data/prism/Repurposing_Public_24Q2_LMFI*.csv
+data/prism/Repurposing_Public_24Q2_Extended_Primary_Data_Matrix.csv
+data/tahoe_metadata/metadata/obs_metadata.parquet
+*.h5ad
+*.npz
+
+# Keep small metadata files:
+# data/cross_reference.json
+# data/jump_cp/crispr.csv.gz, orf.csv.gz
+# data/prism/Repurposing_Public_24Q2_Cell_Line_Meta_Data.csv
+# data/prism/Repurposing_Public_24Q2_Extended_Primary_Compound_List.csv
+# data/prism/Repurposing_Public_24Q2_QC_table.csv
+# data/prism/*.txt (README files)
+# data/tahoe_metadata/metadata/*.parquet (small metadata)

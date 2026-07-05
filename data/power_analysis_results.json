@@ -1,0 +1,226 @@
+{
+  "generated": "2026-07-05T19:27:13.025979",
+  "method": "Pearson-residualize then Spearman (corrected)",
+  "alpha": 0.0125,
+  "n_primary_tests": 4,
+  "results": {
+    "A1": [
+      {
+        "n": 103,
+        "true_rho": 0.2,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_covariates": 2,
+        "n_sims": 5000,
+        "power": 0.2908,
+        "mean_obs": 0.18937460352326144,
+        "std_obs": 0.09726468052018908
+      },
+      {
+        "n": 103,
+        "true_rho": 0.25,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_covariates": 2,
+        "n_sims": 5000,
+        "power": 0.4728,
+        "mean_obs": 0.2378389030444142,
+        "std_obs": 0.09462022139596164
+      },
+      {
+        "n": 103,
+        "true_rho": 0.3,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_covariates": 2,
+        "n_sims": 5000,
+        "power": 0.6578,
+        "mean_obs": 0.282729343671748,
+        "std_obs": 0.0925243134162398
+      },
+      {
+        "n": 103,
+        "true_rho": 0.35,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_covariates": 2,
+        "n_sims": 5000,
+        "power": 0.825,
+        "mean_obs": 0.3320743794754646,
+        "std_obs": 0.09058019998032962
+      },
+      {
+        "n": 103,
+        "true_rho": 0.4,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_covariates": 2,
+        "n_sims": 5000,
+        "power": 0.9348,
+        "mean_obs": 0.38159177173483283,
+        "std_obs": 0.08648870582562097
+      }
+    ],
+    "A2": [
+      {
+        "n": 330,
+        "true_rho": 0.1,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_covariates": 2,
+        "n_sims": 5000,
+        "power": 0.1314,
+        "mean_obs": 0.09614063413221091,
+        "std_obs": 0.05551422594688233
+      },
+      {
+        "n": 330,
+        "true_rho": 0.15,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_covariates": 2,
+        "n_sims": 5000,
+        "power": 0.4068,
+        "mean_obs": 0.1442098545691629,
+        "std_obs": 0.05434824381796146
+      },
+      {
+        "n": 330,
+        "true_rho": 0.2,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_covariates": 2,
+        "n_sims": 5000,
+        "power": 0.7292,
+        "mean_obs": 0.18983146264804168,
+        "std_obs": 0.053237005595338206
+      },
+      {
+        "n": 330,
+        "true_rho": 0.25,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_covariates": 2,
+        "n_sims": 5000,
+        "power": 0.935,
+        "mean_obs": 0.23925627933806887,
+        "std_obs": 0.0533920421295551
+      },
+      {
+        "n": 330,
+        "true_rho": 0.3,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_covariates": 2,
+        "n_sims": 5000,
+        "power": 0.9918,
+        "mean_obs": 0.2873570321123243,
+        "std_obs": 0.052317073114368166
+      }
+    ],
+    "C": [
+      {
+        "n": 7948,
+        "true_rho": 0.05,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_covariates": 1,
+        "n_sims": 3000,
+        "power": 0.015333333333333332,
+        "mean_obs": 0.04778506037864749,
+        "std_obs": 0.010990273432745268
+      },
+      {
+        "n": 7948,
+        "true_rho": 0.08,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_covariates": 1,
+        "n_sims": 3000,
+        "power": 0.6606666666666666,
+        "mean_obs": 0.07660207130193877,
+        "std_obs": 0.011118246527872192
+      },
+      {
+        "n": 7948,
+        "true_rho": 0.1,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_covariates": 1,
+        "n_sims": 3000,
+        "power": 0.984,
+        "mean_obs": 0.09535656846714675,
+        "std_obs": 0.010984364738822963
+      },
+      {
+        "n": 7948,
+        "true_rho": 0.15,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_covariates": 1,
+        "n_sims": 3000,
+        "power": 1.0,
+        "mean_obs": 0.14311164426514533,
+        "std_obs": 0.01112252325219266
+      },
+      {
+        "n": 7948,
+        "true_rho": 0.2,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_covariates": 1,
+        "n_sims": 3000,
+        "power": 1.0,
+        "mean_obs": 0.19156063656805203,
+        "std_obs": 0.010863991580225522
+      }
+    ],
+    "D": [
+      {
+        "n": 5220,
+        "true_rho": 0.05,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_sims": 3000,
+        "power": 0.019333333333333334,
+        "mean_obs": 0.04755112259673653
+      },
+      {
+        "n": 5220,
+        "true_rho": 0.08,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_sims": 3000,
+        "power": 0.481,
+        "mean_obs": 0.0765279623019235
+      },
+      {
+        "n": 5220,
+        "true_rho": 0.1,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_sims": 3000,
+        "power": 0.912,
+        "mean_obs": 0.09618594032392137
+      },
+      {
+        "n": 5220,
+        "true_rho": 0.15,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_sims": 3000,
+        "power": 1.0,
+        "mean_obs": 0.1431919188088137
+      },
+      {
+        "n": 5220,
+        "true_rho": 0.2,
+        "ci_floor": 0.05,
+        "alpha": 0.0125,
+        "n_sims": 3000,
+        "power": 1.0,
+        "mean_obs": 0.19138263579148293
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "generated": "2026-07-05T18:25:59.318449",
+  "matching_method": "case-insensitive drug name",
+  "datasets": {
+    "LINCS": 8949,
+    "Tahoe": 379,
+    "PRISM": 6575,
+    "JUMP_CRISPR_genes_5reps": 7946,
+    "JUMP_ORF_genes_5reps": 12590
+  },
+  "drug_overlaps": {
+    "LINCS_Tahoe": 114,
+    "LINCS_PRISM": 1726,
+    "Tahoe_PRISM": 198,
+    "all_three": 106
+  },
+  "gene_overlap": {
+    "CRISPR_ORF_5reps": 5220
+  }
+}
