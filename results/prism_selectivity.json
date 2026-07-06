@@ -1,0 +1,28 @@
+{
+  "experiment": "E3_prism_selectivity",
+  "n": 75,
+  "primary_metric": "gini_corrected",
+  "raw_spearman_rho": 0.1751,
+  "raw_p_value": 0.13293342926605584,
+  "partial_spearman_rho": 0.1436,
+  "partial_ci_low": -0.0878,
+  "partial_ci_high": 0.3602,
+  "partial_p_value": 0.22320888678602224,
+  "criterion": "CI lower > 0.05 AND p < 0.0167",
+  "alpha": 0.0167,
+  "passes": false,
+  "interpretation": "moderate: some selectivity signal",
+  "method": "Pearson-residualize then Spearman, 1 covariate (n_contexts)",
+  "magnitude_correction": "Gini residualized against mean_kill_magnitude via OLS",
+  "sensitivity_gini_raw": {
+    "raw_rho": 0.2659,
+    "partial_rho": 0.2754,
+    "note": "NOT primary \u2014 magnitude-confounded"
+  },
+  "sensitivity_kill_fraction": {
+    "raw_rho": -0.4418,
+    "partial_rho": -0.4532,
+    "threshold": -0.5
+  },
+  "generated": "2026-07-06T00:56:05.573237"
+}

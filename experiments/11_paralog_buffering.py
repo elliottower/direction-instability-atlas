@@ -20,6 +20,7 @@ Inputs:
 
 Output: results/paralog_buffering.json
 """
+import urllib.parse
 import urllib.request
 from datetime import datetime
 from io import StringIO
@@ -38,7 +39,7 @@ from experiments.utils import (
 )
 
 CRISPR_DI_PATH = Path("results/crispr_di.csv")
-EXPRESSION_CACHE = Path("data/depmap/OmicsExpressionProteinCodingGenesTPMLogp1.csv")
+EXPRESSION_CACHE = Path("data/depmap/24q4/OmicsExpressionProteinCodingGenesTPMLogp1.csv")
 PARALOG_CACHE = Path("data/depmap/ensembl_paralogs.csv")
 RESULTS_PATH = Path("results/paralog_buffering.json")
 
@@ -66,7 +67,8 @@ def fetch_ensembl_paralogs() -> pd.DataFrame:
         '</Dataset></Query>'
     )
 
-    url = f"https://www.ensembl.org/biomart/martservice?query={query}"
+    encoded_query = urllib.parse.quote(query)
+    url = f"https://www.ensembl.org/biomart/martservice?query={encoded_query}"
     req = urllib.request.Request(url)
     with urllib.request.urlopen(req, timeout=300) as resp:
         text = resp.read().decode("utf-8")
@@ -142,6 +144,12 @@ def main():
 
     merged = crispr_di.merge(paralog_features, on="gene")
     print(f"[{ts()}] Overlap (genes with DI + paralog data): {len(merged)}")
+
+    n_before = len(merged)
+    merged = merged.dropna(subset=["di_corrected", "paralog_count", "n_contexts", "expr_mean"])
+    merged = merged[np.isfinite(merged["expr_mean"].values) & np.isfinite(merged["di_corrected"].values)]
+    if n_before != len(merged):
+        print(f"[{ts()}] Dropped {n_before - len(merged)} rows with NaN/inf covariates")
 
     if len(merged) == 0:
         save_results({"experiment": "E5_paralog_buffering", "n": 0}, RESULTS_PATH)

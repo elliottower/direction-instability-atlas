@@ -1,0 +1,17 @@
+{
+  "experiment": "E2_expression_variance",
+  "n": 7802,
+  "raw_spearman_rho": 0.0611,
+  "raw_p_value": 6.607041708805009e-08,
+  "partial_spearman_rho": 0.06,
+  "partial_ci_low": 0.0379,
+  "partial_ci_high": 0.0821,
+  "partial_p_value": 1.1220265960787401e-07,
+  "criterion": "CI lower > 0.05 AND p < 0.0167",
+  "alpha": 0.0167,
+  "passes": false,
+  "interpretation": "weak but detectable",
+  "method": "Pearson-residualize then Spearman, 1 covariate (n_contexts)",
+  "expression_source": "DepMap OmicsExpressionProteinCodingGenesTPMLogp1",
+  "generated": "2026-07-06T01:43:52.553819"
+}

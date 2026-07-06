@@ -1,0 +1,29 @@
+{
+  "experiment": "E5_paralog_buffering",
+  "method": "Pearson-residualize then Spearman, 2 covariates (n_contexts, expr_mean)",
+  "alpha": 0.0167,
+  "E5a_paralog_count": {
+    "n": 6894,
+    "raw_spearman_rho": 0.0376,
+    "raw_p_value": 0.0018124746656393803,
+    "partial_spearman_rho": -0.0069,
+    "partial_ci_low": -0.0305,
+    "partial_ci_high": 0.0167,
+    "partial_p_value": 0.5676355245547549,
+    "criterion": "CI lower > 0.05 AND p < 0.0167",
+    "passes": false,
+    "label": "PRIMARY"
+  },
+  "E5b_paralog_breadth": {
+    "n": 6882,
+    "raw_spearman_rho": -0.117,
+    "raw_p_value": 2.111626356136272e-22,
+    "partial_spearman_rho": -0.0287,
+    "partial_ci_low": -0.0523,
+    "partial_ci_high": -0.0051,
+    "partial_p_value": 0.017274965230628547,
+    "criterion": "CI upper < -0.05 AND p < 0.0167",
+    "passes": false
+  },
+  "generated": "2026-07-06T01:44:37.877346"
+}

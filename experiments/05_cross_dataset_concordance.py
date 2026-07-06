@@ -36,7 +36,9 @@ from experiments.utils import (
 )
 
 LINCS_PATH = Path("../drug-perturbation-geometry/zenodo_v1/drug_instability_8949.csv")
+LINCS_META_PATH = Path("../drug-perturbation-geometry/data/GSE92742_Broad_LINCS_pert_info.txt.gz")
 TAHOE_PATH = Path("results/tahoe_di.csv")
+TAHOE_META_PATH = Path("data/tahoe_metadata/metadata/drug_metadata.parquet")
 JUMP_DI_PATH = Path("../bracket-norm-validity/results/08_jump_cp/jump_cp_instabilities.npz")
 JUMP_META_PATH = Path("../bracket-norm-validity/data/jump_cp/compound_metadata.csv.gz")
 RESULTS_PATH = Path("results/concordance.json")
@@ -121,12 +123,34 @@ def main():
     tahoe = load_tahoe_di()
     print(f"[{ts()}] LINCS: {len(lincs)} drugs, Tahoe: {len(tahoe)} drugs")
 
-    # A1: LINCS ∩ Tahoe (matched by drug name, InChIKey-verified n=103)
-    merged_a1 = lincs.merge(tahoe, on="drug", suffixes=("_lincs", "_tahoe"))
-    assert len(merged_a1) >= 100, (
-        f"Expected ~103 LINCS-Tahoe overlap, got {len(merged_a1)}"
-    )
-    print(f"[{ts()}] A1 overlap: {len(merged_a1)} drugs")
+    # A1: LINCS ∩ Tahoe (matched by InChIKey 14-char prefix via PubChem CID)
+    lincs_meta = pd.read_csv(LINCS_META_PATH, sep="\t")
+    lincs_meta = lincs_meta[lincs_meta["pert_type"] == "trt_cp"]
+    lincs_name_to_ik14 = {}
+    for _, row in lincs_meta.iterrows():
+        if pd.notna(row.get("inchi_key")):
+            lincs_name_to_ik14[row["pert_iname"].lower()] = row["inchi_key"][:14]
+    lincs["ik14"] = lincs["drug"].str.lower().map(lincs_name_to_ik14)
+
+    tahoe_meta = pd.read_parquet(TAHOE_META_PATH)
+    tahoe_meta["pubchem_cid_clean"] = pd.to_numeric(tahoe_meta["pubchem_cid"], errors="coerce")
+    lincs_meta["pubchem_cid_clean"] = pd.to_numeric(lincs_meta["pubchem_cid"], errors="coerce")
+    cid_to_ik14 = {}
+    for _, row in lincs_meta.iterrows():
+        if pd.notna(row["pubchem_cid_clean"]) and pd.notna(row.get("inchi_key")):
+            cid_to_ik14[row["pubchem_cid_clean"]] = row["inchi_key"][:14]
+    tahoe_drug_to_ik14 = {}
+    for _, row in tahoe_meta.iterrows():
+        ik14 = cid_to_ik14.get(row.get("pubchem_cid_clean"))
+        if ik14:
+            tahoe_drug_to_ik14[row["drug"]] = ik14
+    tahoe["ik14"] = tahoe["drug"].map(tahoe_drug_to_ik14)
+
+    lincs_ik = lincs[lincs["ik14"].notna()]
+    tahoe_ik = tahoe[tahoe["ik14"].notna()]
+    merged_a1 = lincs_ik.merge(tahoe_ik, on="ik14", suffixes=("_lincs", "_tahoe"))
+    merged_a1 = merged_a1.drop_duplicates(subset="ik14")
+    print(f"[{ts()}] A1 overlap (InChIKey-matched): {len(merged_a1)} drugs")
 
     Z_a1 = np.column_stack([
         merged_a1["n_contexts_lincs"].values,

@@ -1,0 +1,226 @@
+% DI Atlas paper — v1 draft (Abstract + Introduction)
+% Resource-paper framing: the atlas is the contribution; nulls characterize the resource.
+
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{natbib}
+\usepackage{lineno}
+\usepackage{xcolor}
+
+\title{A Pre-Registered Direction Instability Atlas\\
+Across Three Perturbation Modalities}
+
+\author{Elliot Tower\\
+\texttt{elliot@elliottower.ai}}
+
+\date{July 2026}
+
+\linenumbers
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+When a drug or gene knockout is applied across many cell lines, the
+resulting expression or morphological signatures can point in different
+directions---a property quantified by cosine-based direction instability
+(DI). A companion study established that DI is immune to the magnitude
+confound that dominates alternative geometric metrics.  Here we construct a cross-modal DI atlas spanning three perturbation
+modalities: LINCS L1000 transcriptomics (8{,}949 drugs), Tahoe-100M
+single-cell transcriptomics (379 drugs), and JUMP Cell Painting
+morphology (7{,}948 CRISPR knockouts, 12{,}590 ORF overexpressions).
+We test nine pre-registered hypotheses about what DI captures. One passes: DI is
+concordant across expression and morphology modalities (partial
+$\rho = 0.19$, $n = 378$ compounds, $p = 2.1 \times 10^{-4}$).  The
+remaining eight fail, and their failure pattern is informative.
+Essential genes produce \emph{lower} DI ($\rho = -0.33$), inverting
+the pre-registered prediction and revealing that functional constraint
+suppresses context-dependence.  Knockout and overexpression DI for the
+same gene are uncorrelated ($\rho = 0.01$, $n = 5{,}220$),
+establishing DI as a property of the perturbation mechanism rather than
+the target gene.  Expression variance, paralog count, and paralog
+expression breadth each explain less than 0.4\% of DI variance after
+confound control, ruling out three plausible proxy explanations.  The
+atlas, pre-registration documents, and all analysis code are publicly
+available.
+\end{abstract}
+
+
+%% ====================================================================
+\section{Introduction}
+%% ====================================================================
+
+High-throughput perturbation screens now profile thousands of drugs and
+genetic perturbations across panels of cell lines, producing
+multi-dimensional signatures in transcriptomic
+\citep{subramanian2017next}, morphological \citep{bray2016cell}, and
+single-cell modalities \citep{tahoe2025}.  A central question in
+perturbation biology is whether a compound or knockout acts the same way
+across cellular contexts or produces context-dependent effects.  This
+question has practical consequences: drugs with context-invariant
+mechanisms are more likely to transfer from the cell line where they were
+discovered to the patient tissue where they must work
+\citep{tower2026confound}.
+
+Direction instability (DI) quantifies this context-dependence as
+$\mathrm{DI} = 1 - \overline{\cos(\mathbf{s}_i, \mathbf{s}_j)}$, the
+mean pairwise cosine dissimilarity among a perturbation's signatures
+across contexts.  Because cosine normalizes each signature to unit length before
+comparison, DI is immune by construction to the magnitude
+confound---systematic covariation between effect size and metric value.
+Alternative geometric measures such as Grassmannian geodesic distance,
+profile variability, and optimal transport cost are dominated by this
+artifact \citep{tower2026confound}.  That immunity was the subject
+of a companion study, which demonstrated magnitude confounding across
+three perturbation modalities and showed that DI alone predicts
+cross-cell-line mechanism transport (leave-one-out AUROC $= 0.986$ on
+8{,}949 LINCS drugs).  The present study takes DI's validity as
+established and asks a different question: what does DI capture, and
+what does it fail to capture, across modalities and perturbation types?
+
+We constructed a DI atlas spanning three measurement technologies and
+four perturbation classes: drug perturbations measured by L1000
+transcriptomics (LINCS, 8{,}949 compounds) and single-cell
+transcriptomics (Tahoe-100M, 379 compounds); genetic knockouts measured
+by Cell Painting morphology (JUMP-CP CRISPR, 7{,}948 genes); and
+genetic overexpressions measured by Cell Painting morphology (JUMP-CP
+ORF, 12{,}590 genes).  For each perturbation, the atlas provides
+magnitude-corrected DI with bootstrap confidence intervals, enabling
+downstream analyses that require a calibrated measure of
+context-dependence.
+
+To characterize this resource, we pre-registered nine hypotheses across
+two batches before computing DI on new datasets (Batch~1 SHA
+\texttt{0d07a01}; Batch~2A SHA \texttt{a17c125}).  The hypotheses test
+whether DI is concordant across modalities (A1, A2), whether it
+correlates with gene essentiality (C), whether it is an intrinsic
+property of genes (D), and whether expression variance (E2), drug
+selectivity (E3), or paralog buffering (E5a, E5b) can explain it.  Of these, one
+passes its pre-registered criterion and eight fail.
+
+The failures are the core result.  Cross-modal concordance (A2) confirms
+that DI reflects biology rather than measurement artifact: compounds
+whose transcriptomic effects vary across cell lines also produce
+variable morphological profiles.  Every other test delimits what DI
+measures.  Essential genes show \emph{low} DI, because functional
+constraint produces stereotyped disruption regardless of cellular
+identity.  Knockout and overexpression DI are unrelated, meaning DI
+characterizes how a specific perturbation mechanism interacts with
+context rather than indexing a stable property of the target gene.
+Expression variance, paralog count, and paralog expression breadth
+produce correlations too small to matter biologically (partial
+$\rho < 0.07$ after confound control), ruling them out as explanations
+for DI variation.
+
+Together, these results establish DI as a distinct axis of perturbation
+characterization.  It captures a specific interaction between
+perturbation mechanism and cellular compensatory network that survives
+cross-modal validation, resists reduction to existing gene annotations,
+and is mechanism-specific rather than target-intrinsic.  The atlas
+itself---DI values with confidence intervals across four perturbation
+classes---is the primary contribution, available for integration with
+downstream analyses such as drug mechanism prediction, gene function
+annotation, and perturbation screen quality control.
+
+The remainder of the paper is organized as follows.
+Section~\ref{sec:atlas} describes the atlas as a resource: datasets,
+DI computation, and magnitude correction.
+Section~\ref{sec:concordance} presents the construct validity results
+(A1 and A2), with PRISM viability as independent corroboration.
+Section~\ref{sec:whatnot} reports the informative null and sign-flipped
+results that delimit what DI measures (C, D, E2, E3, E5).
+Section~\ref{sec:integrity} describes the pre-registration protocol and
+deviations.
+Section~\ref{sec:discussion} synthesizes the failure pattern into a
+characterization of DI as an irreducible perturbation property.
+
+
+%% ====================================================================
+%% Placeholder sections (to be drafted)
+%% ====================================================================
+
+\section{The DI atlas as a resource}
+\label{sec:atlas}
+
+\textcolor{red}{[TO BE DRAFTED: datasets table, DI computation, magnitude correction via OLS residualization, bootstrap CIs, data availability.]}
+
+\section{Construct validity: cross-modal concordance}
+\label{sec:concordance}
+
+\textcolor{red}{[TO BE DRAFTED: A2 as headline (rho=0.19, n=378, PASS). A1 as underpowered but effect-present (rho=0.25, n=76, FAIL CI gate). PRISM viability CV as exploratory corroboration (rho=0.36, n=75). A1/A2 asymmetry sentence. Do not oversell A2.]}
+
+\section{What DI is not: informative nulls and the essentiality sign-flip}
+\label{sec:whatnot}
+
+\textcolor{red}{[TO BE DRAFTED: C sign-flip (post-hoc interpretation, label it). D null (mechanism-specific, not gene-intrinsic). E2 (real but negligible). E5a (confound removal textbook). E5b (tiny, gated). E3 (underpowered, magnitude confound confirmed). Frame as scope-delimitation of the atlas resource.]}
+
+\section{Pre-registration integrity}
+\label{sec:integrity}
+
+\textcolor{red}{[TO BE DRAFTED: Two-batch protocol. SHA freezes. 7 deviations disclosed. DepMap version reconciliation (single paragraph). A1 matching correction (moved toward prereg, not away). CI gate rationale.]}
+
+\section{Discussion}
+\label{sec:discussion}
+
+\textcolor{red}{[TO BE DRAFTED: Synthesis from V2 writeup. DI as irreducible axis. Resource-paper framing: the nulls characterize the resource. Limitations (PRISM exploratory, A1 underpowered, context definitions vary). Future work (Batch 2B / Shesha, GO enrichment, larger Tahoe overlap).]}
+
+
+%% ====================================================================
+%% References (to be replaced with .bib)
+%% ====================================================================
+
+\begin{thebibliography}{99}
+
+\bibitem[Bray et~al., 2016]{bray2016cell}
+Bray, M.-A., et~al. (2016).
+Cell Painting, a high-content image-based assay for morphological profiling using multiplexed fluorescent dyes.
+\textit{Nature Protocols}, 11:1757--1774.
+
+\bibitem[Chandrasekaran et~al., 2024]{chandrasekaran2024cpjump1}
+Chandrasekaran, S.N., et~al. (2024).
+Three million images and morphological profiles of cells treated with matched chemical and genetic perturbations.
+\textit{Nature Methods}, 21:1114--1121.
+
+\bibitem[Chandrasekaran et~al., 2025]{chandrasekaran2025morphmap}
+Chandrasekaran, S.N., et~al. (2025).
+Morphological map of under- and overexpression of genes in human cells.
+\textit{Nature Methods}.
+
+\bibitem[Corsello et~al., 2020]{corsello2020prism}
+Corsello, S.M., et~al. (2020).
+Discovering the anticancer potential of non-oncology drugs by systematic viability profiling.
+\textit{Nature Cancer}, 1:235--248.
+
+\bibitem[Funk et~al., 2022]{funk2022phenotypic}
+Funk, L., et~al. (2022).
+The phenotypic landscape of essential human genes.
+\textit{Cell}, 185(24):4634--4653.
+
+\bibitem[Haghighi et~al., 2022]{haghighi2022crossmodal}
+Haghighi, M., et~al. (2022).
+High-dimensional gene expression and morphology profiles of cells across 28,000 genetic and chemical perturbations.
+\textit{Nature Methods}, 19:1550--1557.
+
+\bibitem[Subramanian et~al., 2017]{subramanian2017next}
+Subramanian, A., et~al. (2017).
+A next generation connectivity map: L1000 platform and the first 1,000,000 profiles.
+\textit{Cell}, 171(6):1437--1452.
+
+\bibitem[Tahoe Consortium, 2025]{tahoe2025}
+Tahoe Therapeutics (2025).
+Tahoe-100M: A giga-scale single-cell perturbation atlas for context-dependent gene function and cellular modeling.
+\textit{bioRxiv}, 2025.02.20.639398.
+
+\bibitem[Tower, 2026]{tower2026confound}
+Tower, E. (2026).
+Direction instability identifies drug mechanism transport while geometric alternatives measure magnitude.
+\textit{In preparation}.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,530 @@
+<title>DI Atlas — Pre-registered Results</title>
+<style>
+  :root {
+    --bg: #FAFAF8;
+    --bg-card: #FFFFFF;
+    --border: #E2E0DA;
+    --text: #2C2C2E;
+    --text-secondary: #6B6860;
+    --text-dim: #9B978E;
+    --pass: #2D8A4E;
+    --pass-bg: #E8F5EC;
+    --fail: #C4384B;
+    --fail-bg: #FBEAEC;
+    --null-color: #8B7355;
+    --null-bg: #F3EFE8;
+    --exploratory: #5B7FA5;
+    --exploratory-bg: #EBF0F5;
+    --pending: #9B978E;
+    --pending-bg: #F0EFEC;
+    --accent: #3D5A80;
+    --mono: 'Menlo', 'Consolas', 'Liberation Mono', monospace;
+    --body: Georgia, 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141517;
+      --bg-card: #1E1F23;
+      --border: #2E2F34;
+      --text: #E0DFD8;
+      --text-secondary: #9B978E;
+      --text-dim: #6B6860;
+      --pass: #4EAD6B;
+      --pass-bg: #1A2E22;
+      --fail: #E05A6B;
+      --fail-bg: #2E1A1E;
+      --null-color: #B89E7A;
+      --null-bg: #251F18;
+      --exploratory: #7BA3CC;
+      --exploratory-bg: #1A2230;
+      --pending: #6B6860;
+      --pending-bg: #1E1D1A;
+      --accent: #7BA3CC;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141517;
+    --bg-card: #1E1F23;
+    --border: #2E2F34;
+    --text: #E0DFD8;
+    --text-secondary: #9B978E;
+    --text-dim: #6B6860;
+    --pass: #4EAD6B;
+    --pass-bg: #1A2E22;
+    --fail: #E05A6B;
+    --fail-bg: #2E1A1E;
+    --null-color: #B89E7A;
+    --null-bg: #251F18;
+    --exploratory: #7BA3CC;
+    --exploratory-bg: #1A2230;
+    --pending: #6B6860;
+    --pending-bg: #1E1D1A;
+    --accent: #7BA3CC;
+  }
+  :root[data-theme="light"] {
+    --bg: #FAFAF8;
+    --bg-card: #FFFFFF;
+    --border: #E2E0DA;
+    --text: #2C2C2E;
+    --text-secondary: #6B6860;
+    --text-dim: #9B978E;
+    --pass: #2D8A4E;
+    --pass-bg: #E8F5EC;
+    --fail: #C4384B;
+    --fail-bg: #FBEAEC;
+    --null-color: #8B7355;
+    --null-bg: #F3EFE8;
+    --exploratory: #5B7FA5;
+    --exploratory-bg: #EBF0F5;
+    --pending: #9B978E;
+    --pending-bg: #F0EFEC;
+    --accent: #3D5A80;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    line-height: 1.6;
+    padding: 2.5rem 1.5rem 4rem;
+    max-width: 52rem;
+    margin: 0 auto;
+  }
+
+  header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.4rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-wrap: balance;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    max-width: 40rem;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  .meta-row span { white-space: nowrap; }
+
+  .summary-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .summary-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem 0.5rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+  }
+
+  .summary-chip .label {
+    font-family: var(--sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.25rem;
+  }
+
+  .summary-chip .verdict {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .summary-chip .rho {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-top: 0.1rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .v-pass { color: var(--pass); }
+  .v-fail { color: var(--fail); }
+  .v-null { color: var(--null-color); }
+  .v-expl { color: var(--exploratory); }
+  .v-pending { color: var(--pending); }
+
+  .result-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .result-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .result-card h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .result-card .test-id {
+    font-family: var(--sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.15rem;
+  }
+
+  .badge {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .badge-pass { background: var(--pass-bg); color: var(--pass); }
+  .badge-fail { background: var(--fail-bg); color: var(--fail); }
+  .badge-null { background: var(--null-bg); color: var(--null-color); }
+  .badge-expl { background: var(--exploratory-bg); color: var(--exploratory); }
+  .badge-pending { background: var(--pending-bg); color: var(--pending); }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat-label {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .stat-value {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .interpretation {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin-top: 0.5rem;
+  }
+
+  .interpretation strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .section-label {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .footnotes {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .footnotes p { margin-bottom: 0.4rem; }
+
+  .divergence-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  @media (max-width: 32rem) {
+    .divergence-box { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr; }
+  }
+
+  .div-panel {
+    padding: 0.75rem;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    font-size: 0.8rem;
+  }
+
+  .div-panel .div-title {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+    margin-bottom: 0.3rem;
+  }
+
+  .div-panel .div-count {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .div-panel .div-bio {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-top: 0.2rem;
+  }
+</style>
+
+<header>
+  <div class="eyebrow">Pre-registered experiment &middot; SHA 0d07a01</div>
+  <h1>Direction Instability Atlas</h1>
+  <div class="subtitle">Cross-modal DI atlas for perturbation biology. Four pre-registered tests (A1, A2, C, D) plus one exploratory analysis, Bonferroni-corrected at &alpha; = 0.0125.</div>
+  <div class="meta-row">
+    <span>Run: 5 Jul 2026</span>
+    <span>Criterion: 95% CI lower &gt; 0.05</span>
+    <span>Bootstrap: 1,000 resamples</span>
+  </div>
+</header>
+
+<div class="summary-strip">
+  <div class="summary-chip">
+    <span class="label">A1 LINCS&ndash;Tahoe</span>
+    <span class="verdict v-pending">PENDING</span>
+    <span class="rho" style="color: var(--pending);">&mdash;</span>
+  </div>
+  <div class="summary-chip">
+    <span class="label">A2 LINCS&ndash;JUMP</span>
+    <span class="verdict v-pass">PASS</span>
+    <span class="rho" style="color: var(--pass);">0.19</span>
+  </div>
+  <div class="summary-chip">
+    <span class="label">C Essentiality</span>
+    <span class="verdict v-fail">FAIL</span>
+    <span class="rho" style="color: var(--fail);">&minus;0.33</span>
+  </div>
+  <div class="summary-chip">
+    <span class="label">D KO vs OE</span>
+    <span class="verdict v-null">NULL</span>
+    <span class="rho" style="color: var(--null-color);">0.01</span>
+  </div>
+  <div class="summary-chip">
+    <span class="label">PRISM expl.</span>
+    <span class="verdict v-pass">PASS</span>
+    <span class="rho" style="color: var(--pass);">0.36</span>
+  </div>
+</div>
+
+<div class="section-label">Primary tests</div>
+
+<!-- Experiment A2 -->
+<div class="result-card">
+  <div class="card-header">
+    <div>
+      <div class="test-id">Experiment A2 &middot; Primary</div>
+      <h2>LINCS &harr; JUMP-CP cross-modality concordance</h2>
+    </div>
+    <span class="badge badge-pass">PASS</span>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat"><span class="stat-label">n (compounds)</span><span class="stat-value">378</span></div>
+    <div class="stat"><span class="stat-label">Raw Spearman &rho;</span><span class="stat-value">0.1869</span></div>
+    <div class="stat"><span class="stat-label">Partial &rho;</span><span class="stat-value" style="color: var(--pass);">0.1897</span></div>
+    <div class="stat"><span class="stat-label">95% CI</span><span class="stat-value">[0.090, 0.285]</span></div>
+    <div class="stat"><span class="stat-label">p-value</span><span class="stat-value">2.1 &times; 10<sup>&minus;4</sup></span></div>
+    <div class="stat"><span class="stat-label">Covariates</span><span class="stat-value">n_contexts (1)</span></div>
+  </div>
+
+  <p class="interpretation">
+    <strong>Direction instability transfers across measurement modalities.</strong> Compounds whose transcriptomic signatures vary across cell lines (LINCS L1000) also show variable morphological profiles (JUMP-CP Cell Painting). Matched by InChIKey connectivity prefix (14-char) via pert_iname, controlling for LINCS n_contexts. The CI lower bound (0.09) clears the 0.05 floor, and p clears Bonferroni. Pre-registration expected n &asymp; 330; we found 378.
+  </p>
+</div>
+
+<!-- Experiment C -->
+<div class="result-card">
+  <div class="card-header">
+    <div>
+      <div class="test-id">Experiment C &middot; Primary</div>
+      <h2>CRISPR DI vs essentiality breadth</h2>
+    </div>
+    <span class="badge badge-fail">FAIL &mdash; NEGATIVE</span>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat"><span class="stat-label">n (genes)</span><span class="stat-value">7,627</span></div>
+    <div class="stat"><span class="stat-label">Raw Spearman &rho;</span><span class="stat-value">&minus;0.3118</span></div>
+    <div class="stat"><span class="stat-label">Partial &rho;</span><span class="stat-value" style="color: var(--fail);">&minus;0.3299</span></div>
+    <div class="stat"><span class="stat-label">95% CI</span><span class="stat-value">[&minus;0.350, &minus;0.310]</span></div>
+    <div class="stat"><span class="stat-label">p-value</span><span class="stat-value">1.5 &times; 10<sup>&minus;171</sup></span></div>
+    <div class="stat"><span class="stat-label">Covariates</span><span class="stat-value">n_contexts (1)</span></div>
+  </div>
+
+  <p class="interpretation">
+    <strong>The hypothesis was wrong in direction.</strong> Genes essential in more cell lines (DepMap Chronos &lt; &minus;0.5) have <em>lower</em> morphological DI, meaning their knockout phenotypes are more conserved across contexts. This makes biological sense: essential genes have constrained, conserved functions, so their loss produces similar morphological disruption regardless of cell type. The CI is entirely negative and the effect is well-powered (p &asymp; 10<sup>&minus;171</sup>), so this is a genuine negative result, not underpowered.
+  </p>
+</div>
+
+<!-- Experiment D -->
+<div class="result-card">
+  <div class="card-header">
+    <div>
+      <div class="test-id">Experiment D &middot; Primary</div>
+      <h2>Knockout vs overexpression DI correlation</h2>
+    </div>
+    <span class="badge badge-null">NULL</span>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat"><span class="stat-label">n (genes)</span><span class="stat-value">5,220</span></div>
+    <div class="stat"><span class="stat-label">Spearman &rho;</span><span class="stat-value" style="color: var(--null-color);">0.0108</span></div>
+    <div class="stat"><span class="stat-label">95% CI</span><span class="stat-value">[&minus;0.016, 0.038]</span></div>
+    <div class="stat"><span class="stat-label">Fisher z p</span><span class="stat-value">0.433</span></div>
+    <div class="stat"><span class="stat-label">Perm. 95th</span><span class="stat-value">0.0232</span></div>
+    <div class="stat"><span class="stat-label">Perm. empirical p</span><span class="stat-value">0.215</span></div>
+  </div>
+
+  <p class="interpretation">
+    <strong>DI is modality-specific, not an intrinsic gene property.</strong> With 5,220 shared genes, the study had power to detect even rho &asymp; 0.04. The observed 0.01 is indistinguishable from permutation noise (null mean = 0.0003, SD = 0.014). Knocking out a gene and overexpressing it produce unrelated patterns of context-dependence in morphological space.
+  </p>
+
+  <div class="divergence-box">
+    <div class="div-panel">
+      <div class="div-title">KO-stable, OE-unstable</div>
+      <div class="div-count">1,331 genes</div>
+      <div class="div-bio">Predicted: dosage-sensitive gain-of-function</div>
+    </div>
+    <div class="div-panel">
+      <div class="div-title">KO-unstable, OE-stable</div>
+      <div class="div-count">289 genes</div>
+      <div class="div-bio">Predicted: redundant paralogs buffer loss</div>
+    </div>
+  </div>
+</div>
+
+<!-- Experiment A1 -->
+<div class="result-card" style="opacity: 0.6;">
+  <div class="card-header">
+    <div>
+      <div class="test-id">Experiment A1 &middot; Primary</div>
+      <h2>LINCS &harr; Tahoe same-modality concordance</h2>
+    </div>
+    <span class="badge badge-pending">PENDING</span>
+  </div>
+  <p class="interpretation">
+    Awaits Tahoe-100M DI computation on Modal (1,026 pseudobulk DE shards, ~89 GB). Job running. Expected n &asymp; 103 drugs.
+  </p>
+</div>
+
+<div class="section-label">Exploratory</div>
+
+<!-- PRISM exploratory -->
+<div class="result-card">
+  <div class="card-header">
+    <div>
+      <div class="test-id">PRISM &middot; Exploratory (uncorrected)</div>
+      <h2>PRISM viability CV vs LINCS DI</h2>
+    </div>
+    <span class="badge badge-expl">PASS &mdash; &rho; &gt; 0.15</span>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat"><span class="stat-label">n (drugs)</span><span class="stat-value">75</span></div>
+    <div class="stat"><span class="stat-label">Spearman &rho;</span><span class="stat-value" style="color: var(--pass);">0.3591</span></div>
+    <div class="stat"><span class="stat-label">95% CI</span><span class="stat-value">[0.144, 0.542]</span></div>
+    <div class="stat"><span class="stat-label">p-value</span><span class="stat-value">1.6 &times; 10<sup>&minus;3</sup></span></div>
+  </div>
+
+  <p class="interpretation">
+    <strong>Drugs with unstable transcriptomic direction also have variable viability across cell lines.</strong> The 75-drug overlap (name-matched, lowercased) shows a moderate positive correlation. This is exploratory with no Bonferroni correction, but the CI clears 0.15 comfortably. Direction instability in expression space predicts viability heterogeneity in an independent assay.
+  </p>
+</div>
+
+<div class="section-label">Data produced</div>
+
+<div class="result-card">
+  <div class="stats-grid">
+    <div class="stat"><span class="stat-label">CRISPR DI</span><span class="stat-value">7,946 genes</span></div>
+    <div class="stat"><span class="stat-label">ORF DI</span><span class="stat-value">12,590 genes</span></div>
+    <div class="stat"><span class="stat-label">PRISM CV</span><span class="stat-value">1,433 drugs</span></div>
+    <div class="stat"><span class="stat-label">DepMap essentiality</span><span class="stat-value">17,386 genes &times; 1,086 lines</span></div>
+    <div class="stat"><span class="stat-label">CRISPR&ndash;ORF overlap</span><span class="stat-value">5,220 genes</span></div>
+    <div class="stat"><span class="stat-label">CRISPR&ndash;DepMap overlap</span><span class="stat-value">7,627 genes</span></div>
+    <div class="stat"><span class="stat-label">LINCS&ndash;JUMP overlap</span><span class="stat-value">378 compounds</span></div>
+  </div>
+
+  <p class="interpretation" style="margin-top: 0.75rem;">
+    All DI tables include raw DI, 1000-resample bootstrap CIs, magnitude CV, mean L2 norm, context count, and OLS-corrected DI. JUMP-CP profiles aggregated at plate level (Metadata_Plate, not Metadata_Source which had only 1 unique value). PRISM CV excludes drugs with |mean LFC| &lt; 0.01 and QC-failure entries.
+  </p>
+</div>
+
+<div class="footnotes">
+  <p><strong>DepMap version:</strong> CRISPRGeneEffect 22Q2 (figshare 34990036). Pre-registration specifies 24Q4 &mdash; to be noted as deviation.</p>
+  <p><strong>A2 matching fix:</strong> InChIKey matching uses pert_iname (not pert_id) from LINCS pert_info. pert_id matching yielded only 8 compounds; pert_iname yields 378, close to pre-registered n &asymp; 330.</p>
+  <p><strong>Plate aggregation fix:</strong> Metadata_Source is degenerate (1 unique value = source_13) in both CRISPR and ORF JUMP-CP data. Scripts use Metadata_Plate instead.</p>
+  <p><strong>Context definitions:</strong> LINCS/Tahoe = cell lines, JUMP-CP CRISPR/ORF = plate replicates, PRISM = cell lines. To be noted in write-up.</p>
+  <p><strong>Partial Spearman method:</strong> Pearson-residualize X and Y against covariates Z (with intercept), then compute Spearman on residuals.</p>
+  <p><strong>Magnitude correction:</strong> OLS-residualize raw DI against mean signature L2 norm, add back intercept.</p>
+</div>

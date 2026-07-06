@@ -31,8 +31,8 @@ from experiments.utils import (
 )
 
 CRISPR_DI_PATH = Path("results/crispr_di.csv")
-EXPRESSION_URL = "https://figshare.com/ndownloader/files/44318028"
-EXPRESSION_CACHE = Path("data/depmap/OmicsExpressionProteinCodingGenesTPMLogp1.csv")
+EXPRESSION_URL = "https://ndownloader.figshare.com/files/51065489"
+EXPRESSION_CACHE = Path("data/depmap/24q4/OmicsExpressionProteinCodingGenesTPMLogp1.csv")
 RESULTS_PATH = Path("results/expression_variance.json")
 
 ALPHA = 0.0167

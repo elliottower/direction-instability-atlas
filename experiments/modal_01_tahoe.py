@@ -72,14 +72,36 @@ def compute_tahoe_di():
 
     print(f"[{ts()}] Computing Tahoe-100M direction instability")
 
+    CHECKPOINT_DIR = Path("/results/tahoe_checkpoints")
+    CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
+    PROGRESS_FILE = CHECKPOINT_DIR / "progress.json"
+    PAIRS_FILE = CHECKPOINT_DIR / "drug_cellline_genes.pkl"
+
     api = HfApi()
     files = api.list_repo_tree(DATASET_ID, path_in_repo=SUBDIR, repo_type="dataset")
-    shard_paths = [f.rfilename for f in files if f.rfilename.endswith(".parquet")]
+    shard_paths = sorted([f.rfilename for f in files if f.rfilename.endswith(".parquet")])
     print(f"[{ts()}] Found {len(shard_paths)} parquet shards")
 
+    import pickle
+
     drug_cellline_genes: dict[tuple[str, str], dict[str, float]] = {}
+    start_shard = 0
+
+    vol.reload()
+    if PROGRESS_FILE.exists() and PAIRS_FILE.exists():
+        progress = json.loads(PROGRESS_FILE.read_text())
+        start_shard = progress["next_shard"]
+        with open(PAIRS_FILE, "rb") as f:
+            drug_cellline_genes = pickle.load(f)
+        print(f"[{ts()}] Resumed from shard {start_shard}/{len(shard_paths)}, {len(drug_cellline_genes)} pairs loaded")
+    else:
+        print(f"[{ts()}] No checkpoint found, starting fresh")
+
+    SAVE_EVERY = 100
 
     for i, shard_path in enumerate(shard_paths):
+        if i < start_shard:
+            continue
         if i % 50 == 0:
             print(f"[{ts()}] Processing shard {i+1}/{len(shard_paths)}")
 
@@ -101,6 +123,13 @@ def compute_tahoe_di():
             drug_cellline_genes[key].update(
                 dict(zip(group["gene_name"], group["log2FoldChange"]))
             )
+
+        if (i + 1) % SAVE_EVERY == 0 or i == len(shard_paths) - 1:
+            with open(PAIRS_FILE, "wb") as f:
+                pickle.dump(drug_cellline_genes, f)
+            PROGRESS_FILE.write_text(json.dumps({"next_shard": i + 1}))
+            vol.commit()
+            print(f"[{ts()}] Checkpoint at shard {i+1}, {len(drug_cellline_genes)} pairs saved")
 
     print(f"[{ts()}] {len(drug_cellline_genes)} drug-cell pairs")
 
@@ -183,5 +212,5 @@ def compute_tahoe_di():
 
 @app.local_entrypoint()
 def main():
-    result = compute_tahoe_di.remote()
-    print(result)
+    result = compute_tahoe_di.spawn()
+    print(f"Spawned: {result.object_id}")

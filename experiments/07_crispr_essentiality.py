@@ -29,8 +29,8 @@ from experiments.utils import (
 )
 
 CRISPR_DI_PATH = Path("results/crispr_di.csv")
-DEPMAP_URL = "https://ndownloader.figshare.com/files/34990036"
-DEPMAP_CACHE = Path("data/depmap/CRISPRGeneEffect.csv")
+DEPMAP_URL = "https://ndownloader.figshare.com/files/51064667"
+DEPMAP_CACHE = Path("data/depmap/24q4/CRISPRGeneEffect.csv")
 RESULTS_PATH = Path("results/essentiality.json")
 
 ALPHA = 0.0125

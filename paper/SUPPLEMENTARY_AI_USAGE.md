@@ -1,0 +1,9 @@
+# Supplementary File: AI Tool Usage
+
+Elliot Tower
+
+Two AI tools were used during the preparation of this manuscript: Claude Code (Anthropic), a command-line coding assistant, and Perplexity AI, a web-based search and reasoning tool. Neither tool was involved in the scientific content of the study. The research hypotheses, both pre-registration protocols (Batch 1 SHA `0d07a01`; Batch 2A SHA `a17c125`), the statistical framework (partial Spearman correlation, CI floor gate, Bonferroni correction), all nine experiment designs and their decision criteria, dataset selection and matching procedures, the magnitude correction method, and interpretation of results were all performed by the author without AI assistance.
+
+Claude Code assisted with programming and manuscript formatting. It helped draft and debug the Python scripts for computing direction instability across datasets, performing bootstrap confidence intervals, running partial Spearman correlations with confound control, and executing permutation tests. It also handled LaTeX formatting tasks such as table layout, cross-reference management, and resolving compilation warnings. Perplexity AI was used to research background literature, check claims against published work, and review a near-final draft for internal consistency. During the review it identified three issues that were subsequently corrected: the abstract cited an exploratory AUROC (0.986) instead of the pre-registered construction-neutral value (0.945), the phrase "immune by construction" was used alongside a magnitude correction step (creating an apparent contradiction, resolved by distinguishing first-order algebraic immunity from residual second-order correlation), and the companion paper citation used an incorrect title verb.
+
+All AI-generated outputs were reviewed and verified. The author takes full responsibility for the accuracy and integrity of the manuscript.

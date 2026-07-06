@@ -1,11 +1,11 @@
 {
   "experiment": "C_essentiality",
-  "n": 7627,
-  "raw_spearman_rho": -0.3118,
-  "raw_p_value": 1.4600911839967193e-171,
-  "partial_spearman_rho": -0.3299,
-  "partial_ci_low": -0.3498,
-  "partial_ci_high": -0.3097,
+  "n": 7653,
+  "raw_spearman_rho": -0.3137,
+  "raw_p_value": 2.0028949752668365e-174,
+  "partial_spearman_rho": -0.3317,
+  "partial_ci_low": -0.3515,
+  "partial_ci_high": -0.3116,
   "partial_p_value": 0.0,
   "criterion": "CI lower > 0.05",
   "alpha": 0.0125,
@@ -13,5 +13,5 @@
   "interpretation": "negligible",
   "method": "Pearson-residualize then Spearman, 1 covariate (n_contexts)",
   "essentiality_definition": "fraction of cell lines with Chronos < -0.5",
-  "generated": "2026-07-05T22:20:49.684530"
+  "generated": "2026-07-06T01:43:15.766983"
 }
