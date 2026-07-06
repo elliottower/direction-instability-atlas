@@ -6,7 +6,7 @@
 
 **Date:** 2026-07-06 (pre SHA freeze)
 
-**Commit SHA:** (to be frozen after script commit)
+**Commit SHA:** `a17c125` (pre-registration freeze)
 
 **Relation to Batch 1:** Batch 1 (PREREGISTRATION.md, SHA `0d07a01`)
 established that DI is cross-modally concordant (A2: rho=0.19,
