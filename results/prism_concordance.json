@@ -1,0 +1,12 @@
+{
+  "experiment": "PRISM_exploratory",
+  "label": "EXPLORATORY \u2014 uncorrected p-value",
+  "n": 75,
+  "spearman_rho": 0.3591,
+  "p_value": 0.0015571808930379377,
+  "ci_low": 0.1438,
+  "ci_high": 0.5419,
+  "threshold": 0.15,
+  "passes_threshold": true,
+  "generated": "2026-07-05T22:08:45.873744"
+}

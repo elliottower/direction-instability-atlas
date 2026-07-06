@@ -1,0 +1,78 @@
+{
+  "experiment": "D_knockout_vs_overexpression",
+  "n": 5220,
+  "observed_spearman_rho": 0.0108,
+  "ci_low": -0.0163,
+  "ci_high": 0.038,
+  "fisher_z_p_value": 0.43333782176098823,
+  "permutation_null": {
+    "n_permutations": 1000,
+    "mean": 0.0003,
+    "sd": 0.0137,
+    "percentile_95th": 0.0232,
+    "empirical_p_value": 0.215
+  },
+  "criterion_1": "CI lower > 0.05",
+  "criterion_2": "observed rho > permutation 95th percentile",
+  "alpha": 0.0125,
+  "passes_ci": false,
+  "passes_permutation": false,
+  "passes_overall": false,
+  "directional_divergence": {
+    "label": "EXPLORATORY \u2014 no pass/fail threshold",
+    "sd_of_difference": 0.1759,
+    "knockout_stable_overexpression_unstable": {
+      "count": 1331,
+      "predicted_biology": "dosage-sensitive gain-of-function genes",
+      "genes": [
+        "AATF",
+        "ABCA3",
+        "ABCB5",
+        "ABCD3",
+        "ABCE1",
+        "ABHD4",
+        "ABT1",
+        "ACAA2",
+        "ACLY",
+        "ACMSD",
+        "ACOT1",
+        "ACOT4",
+        "ACP1",
+        "ACP5",
+        "ACSL6",
+        "ACTL6A",
+        "ACVR1",
+        "ACVR1B",
+        "ACVR2A",
+        "ACY1"
+      ]
+    },
+    "knockout_unstable_overexpression_stable": {
+      "count": 289,
+      "predicted_biology": "genes with redundant paralogs",
+      "genes": [
+        "A4GNT",
+        "ABL1",
+        "ABTB1",
+        "ACADVL",
+        "ACKR2",
+        "ADAD1",
+        "ADORA2B",
+        "ADORA3",
+        "ALDH18A1",
+        "ALDH1B1",
+        "ALG5",
+        "ALX3",
+        "APOBEC3A",
+        "AQP3",
+        "AQP4",
+        "AQP5",
+        "AREG",
+        "ARG2",
+        "ASCL2",
+        "ASTL"
+      ]
+    }
+  },
+  "generated": "2026-07-05T22:35:23.822250"
+}

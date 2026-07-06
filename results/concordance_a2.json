@@ -1,0 +1,16 @@
+{
+  "test": "A2_LINCS_JUMP",
+  "n": 378,
+  "n_covariates": 1,
+  "raw_spearman_rho": 0.1869,
+  "raw_p_value": 0.0002579517644540573,
+  "partial_spearman_rho": 0.1897,
+  "partial_ci_low": 0.0904,
+  "partial_ci_high": 0.2852,
+  "partial_p_value": 0.00020509576721372547,
+  "criterion": "CI lower > 0.05",
+  "alpha": 0.0125,
+  "passes": true,
+  "note": "1 covariate (LINCS n_contexts only); JUMP-CP context counts unavailable in pre-computed npz",
+  "matching": "InChIKey prefix via pert_iname (not pert_id)"
+}
