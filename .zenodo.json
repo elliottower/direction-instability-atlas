@@ -1,0 +1,26 @@
+{
+  "title": "A Pre-Registered Direction Instability Atlas Across Three Perturbation Modalities",
+  "upload_type": "software",
+  "description": "Cross-modal direction instability atlas for perturbation biology, spanning three measurement technologies and four perturbation classes (LINCS L1000, Tahoe-100M, JUMP-CP CRISPR, JUMP-CP ORF).",
+  "creators": [
+    {
+      "name": "Tower, Elliot",
+      "orcid": "0000-0001-7004-8884"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "direction instability",
+    "perturbation biology",
+    "LINCS",
+    "JUMP-CP",
+    "cross-modal"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/elliottower/direction-instability-atlas",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ]
+}
