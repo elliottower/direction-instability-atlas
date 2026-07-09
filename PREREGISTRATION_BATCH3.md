@@ -6,7 +6,7 @@
 
 **Date:** 2026-07-09 (pre SHA freeze)
 
-**Commit SHA:** `[TO BE FILLED AFTER COMMIT]`
+**Commit SHA:** `4c34699`
 
 **Provenance:** These experiments were designed in response to peer
 review of an earlier draft (desk-rejected from GigaScience for
