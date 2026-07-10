@@ -137,10 +137,23 @@ def gini_coefficient(values: np.ndarray) -> float:
     return float((2 * np.sum(index * values) - (n + 1) * np.sum(values)) / (n * np.sum(values)))
 
 
+class _NumpyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        if isinstance(obj, np.bool_):
+            return bool(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super().default(obj)
+
+
 def save_results(results: dict, path: Path) -> None:
     """Save results dict as JSON with timestamp."""
     results["generated"] = datetime.now().isoformat()
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w") as f:
-        json.dump(results, f, indent=2)
+        json.dump(results, f, indent=2, cls=_NumpyEncoder)
     print(f"[{datetime.now().strftime('%H:%M:%S')}] Saved to {path}")

@@ -1,0 +1,15 @@
+{
+  "experiment": "G_cpg0000_pilot",
+  "status": "DATA_UNAVAILABLE",
+  "reason": "Cross-cell-line morphological CRISPR data does not exist in the JUMP ecosystem. cpg0000-jump-pilot contains only source_4 (one cell line). cpg0016-jump CRISPR is only source_13 (U2OS). The pre-registration assumed two cell lines; this assumption was incorrect.",
+  "s3_investigation": {
+    "cpg0000_sources": ["source_4"],
+    "cpg0000_crispr_plates": 18,
+    "cpg0000_crispr_genes": 335,
+    "cpg0000_cell_lines": 1,
+    "cpg0016_crispr_source": "source_13 only (U2OS)",
+    "cross_cell_line_crispr_exists": false
+  },
+  "implication": "The validity crack (plate replicates measure technical reproducibility, not biological context-dependence) remains open. No publicly available dataset provides cross-cell-line CRISPR morphological profiles for directional validation of the essentiality sign-flip.",
+  "generated": "2026-07-09T20:10:00.000000"
+}

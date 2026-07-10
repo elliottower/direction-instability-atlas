@@ -1,0 +1,20 @@
+{
+  "experiment": "H_depmap_convergent",
+  "estimand": "SD of Chronos dependency scores across cell lines (DIFFERENT from morphological DI)",
+  "n": 17916,
+  "n_cell_lines_depmap": 1178,
+  "min_valid_cell_lines": 50,
+  "raw_spearman_rho": 0.8162,
+  "raw_p_value": 0.0,
+  "partial_spearman_rho": 0.811,
+  "partial_ci_low": 0.8059,
+  "partial_ci_high": 0.816,
+  "partial_p_value": 0.0,
+  "covariate": "n_valid_cell_lines",
+  "criterion": "CI upper < -0.05 (predicted negative)",
+  "alpha": 0.0167,
+  "passes": false,
+  "interpretation": "does not converge: opposite direction from morphological sign-flip",
+  "convergence_note": "This tests the biological hypothesis (functional constraint suppresses context-dependence), NOT the morphological DI metric. Different geometric construct (scalar SD vs vector cosine distance).",
+  "generated": "2026-07-09T19:56:01.344574"
+}

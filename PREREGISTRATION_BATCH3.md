@@ -15,6 +15,22 @@ but are *reviewer-prompted, post-hoc additions*, not part of the
 original prospective plan. Timestamps can be verified against the
 repository history. This distinction is disclosed in the manuscript.
 
+**Scoping disclosure (Experiment F):** During exploratory scoping, an
+uncontrolled one-way ANOVA of raw DI on MoA class was computed and
+showed η² ≈ 0.42 (F = 8.62). This raw number was observed before the
+pre-registration was frozen. The confirmatory test registered here is
+the *confound-controlled* (residualized on n_cell_lines + mean_norm)
+and *permutation-tested* version, whose result was unseen at freeze
+time. Experiment F is therefore exploratory-then-confirmed, not blind.
+
+**Data availability disclosure (Experiment G):** The pre-registration
+assumed cpg0000-jump-pilot contained CRISPR profiles from two cell
+lines (A549 and U2OS). Post-freeze inspection of the S3 bucket
+revealed only source_4 (one cell line). Cross-cell-line morphological
+CRISPR data does not exist in the JUMP ecosystem (cpg0016 CRISPR is
+also single-source, source_13/U2OS). Experiment G cannot be executed
+as designed. This is reported as DATA_UNAVAILABLE.
+
 **Relation to earlier batches:** Batch 1 (SHA `0d07a01`) established
 cross-modal concordance, the essentiality sign-flip, mechanism
 specificity, and PRISM viability concordance. Batch 2A (SHA `a17c125`)

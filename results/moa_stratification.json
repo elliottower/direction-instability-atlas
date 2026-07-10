@@ -1,0 +1,149 @@
+{
+  "experiment": "F_moa_stratification",
+  "n_drugs": 1031,
+  "n_moa_classes": 80,
+  "min_class_size": 5,
+  "raw_eta_squared": 0.4172,
+  "residualized_eta_squared": 0.2012,
+  "confounds_removed": [
+    "n_cell_lines",
+    "mean_norm"
+  ],
+  "f_statistic": 3.03,
+  "f_p_value": 1.608799674757851e-15,
+  "permutation_n": 1000,
+  "permutation_null_mean": 0.0771,
+  "permutation_null_sd": 0.0122,
+  "permutation_null_95th": 0.0985,
+  "permutation_null_99th": 0.111,
+  "permutation_p": 0.0,
+  "alpha": 0.0167,
+  "passes": true,
+  "lowest_di_moas": [
+    {
+      "moa": "mTOR inhibitor",
+      "mean_di_resid": 1.0296998695726547,
+      "std_di_resid": 0.057693334899687275,
+      "n": 10
+    },
+    {
+      "moa": "HDAC inhibitor",
+      "mean_di_resid": 1.0562116276915792,
+      "std_di_resid": 0.07297621268584459,
+      "n": 19
+    },
+    {
+      "moa": "HSP inhibitor",
+      "mean_di_resid": 1.07775897974772,
+      "std_di_resid": 0.03628748744486654,
+      "n": 8
+    },
+    {
+      "moa": "PI3K inhibitor",
+      "mean_di_resid": 1.0798872379388351,
+      "std_di_resid": 0.04888421546384585,
+      "n": 9
+    },
+    {
+      "moa": "VEGFR inhibitor",
+      "mean_di_resid": 1.0855448009355064,
+      "std_di_resid": 0.07112057590494385,
+      "n": 5
+    },
+    {
+      "moa": "EGFR inhibitor",
+      "mean_di_resid": 1.0899989855317207,
+      "std_di_resid": 0.05589392941749518,
+      "n": 16
+    },
+    {
+      "moa": "bacterial 30S ribosomal subunit inhibitor",
+      "mean_di_resid": 1.093191145514393,
+      "std_di_resid": 0.027046555813829417,
+      "n": 5
+    },
+    {
+      "moa": "IGF-1 inhibitor",
+      "mean_di_resid": 1.093572294969649,
+      "std_di_resid": 0.02604744968314932,
+      "n": 5
+    },
+    {
+      "moa": "tubulin polymerization inhibitor",
+      "mean_di_resid": 1.1049592850523662,
+      "std_di_resid": 0.044205588729825454,
+      "n": 16
+    },
+    {
+      "moa": "tachykinin antagonist",
+      "mean_di_resid": 1.1077723505756938,
+      "std_di_resid": 0.022078324762005646,
+      "n": 7
+    }
+  ],
+  "highest_di_moas": [
+    {
+      "moa": "angiotensin converting enzyme inhibitor",
+      "mean_di_resid": 1.1401218902294505,
+      "std_di_resid": 0.05623856639118296,
+      "n": 9
+    },
+    {
+      "moa": "leukotriene receptor antagonist",
+      "mean_di_resid": 1.1430221299000936,
+      "std_di_resid": 0.02852854922341812,
+      "n": 5
+    },
+    {
+      "moa": "histamine receptor antagonist",
+      "mean_di_resid": 1.1436294297686393,
+      "std_di_resid": 0.04144438957810054,
+      "n": 39
+    },
+    {
+      "moa": "acetylcholinesterase inhibitor",
+      "mean_di_resid": 1.14591021166059,
+      "std_di_resid": 0.01444564574320507,
+      "n": 7
+    },
+    {
+      "moa": "PPAR receptor agonist",
+      "mean_di_resid": 1.1464858676813956,
+      "std_di_resid": 0.02483377601550515,
+      "n": 14
+    },
+    {
+      "moa": "potassium channel activator",
+      "mean_di_resid": 1.1465898296433312,
+      "std_di_resid": 0.015529312625044641,
+      "n": 7
+    },
+    {
+      "moa": "GABA receptor antagonist",
+      "mean_di_resid": 1.148172948966191,
+      "std_di_resid": 0.07187405484821464,
+      "n": 8
+    },
+    {
+      "moa": "histamine receptor agonist",
+      "mean_di_resid": 1.152036078983947,
+      "std_di_resid": 0.04782608354661425,
+      "n": 6
+    },
+    {
+      "moa": "serotonin receptor agonist",
+      "mean_di_resid": 1.156766572425372,
+      "std_di_resid": 0.05448064683057374,
+      "n": 30
+    },
+    {
+      "moa": "nitric oxide synthase inhibitor",
+      "mean_di_resid": 1.1608472877171554,
+      "std_di_resid": 0.037301628627176495,
+      "n": 5
+    }
+  ],
+  "framing": "characterization (DI is mechanism-structured), not prediction (MoA predicts DI)",
+  "circularity_note": "MoA and DI may share structural causes (similar targets -> similar cross-context behavior); eta^2 should not be interpreted as causal",
+  "generated": "2026-07-09T19:58:03.809916"
+}
