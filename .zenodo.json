@@ -1,7 +1,7 @@
 {
   "title": "A Pre-Registered Direction Instability Atlas Across Three Perturbation Modalities",
   "upload_type": "software",
-  "description": "Cross-modal direction instability atlas for perturbation biology, spanning three measurement technologies and four perturbation classes (LINCS L1000, Tahoe-100M, JUMP-CP CRISPR, JUMP-CP ORF).",
+  "description": "Cross-modal direction instability (DI) atlas for perturbation biology, spanning three measurement technologies and four perturbation classes. DI quantifies the directional consistency of a perturbation's effects across cellular contexts (DI = 1 - mean pairwise cosine similarity). This deposit provides magnitude-corrected DI values with bootstrap confidence intervals for 8,949 LINCS L1000 drugs, 379 Tahoe-100M drugs, 7,948 JUMP-CP CRISPR knockouts, and 12,590 JUMP-CP ORF overexpressions.\n\nEight pre-registered primary hypotheses and one exploratory analysis (frozen at commit SHAs 0d07a01 and a17c125 before analysis) characterize what DI captures: cross-modal concordance between expression and morphology confirms that DI reflects biology (partial rho = 0.19, n = 378, p = 2.1e-4); essential genes show lower DI (rho = -0.33), revealing that functional constraint suppresses context-dependence; knockout and overexpression DI are uncorrelated (rho = 0.01, n = 5,220), establishing DI as mechanism-specific; and expression variance, paralog count, and paralog breadth each explain under 0.4% of DI variance after confound control.\n\nThis deposit contains the atlas data files (CSV), all experiment result files (JSON), pre-registration documents (frozen before analysis), the full analysis codebase (Python), and the manuscript.",
   "creators": [
     {
       "name": "Tower, Elliot",
@@ -21,6 +21,11 @@
       "identifier": "https://github.com/elliottower/direction-instability-atlas",
       "relation": "isSupplementTo",
       "scheme": "url"
+    },
+    {
+      "identifier": "10.5281/zenodo.21213699",
+      "relation": "isPartOf",
+      "scheme": "doi"
     }
   ]
 }

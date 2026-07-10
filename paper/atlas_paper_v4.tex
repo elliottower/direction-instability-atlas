@@ -1,5 +1,6 @@
-% DI Atlas paper — v2 full draft
-% Resource-paper framing: the atlas is the contribution; nulls characterize the resource.
+% DI Atlas paper — v4
+% Batch 3 (F, G, H): MoA stratification, cross-cell-line CRISPR pilot, DepMap
+% convergent failure.  Reframed for soundness venue (Bioinformatics / PLOS ONE).
 
 \documentclass[11pt]{article}
 
@@ -27,29 +28,28 @@ Across Three Perturbation Modalities}
 \maketitle
 
 \begin{abstract}
-\textbf{Background:}
 When a drug or gene knockout is applied across many cell lines, the
 resulting expression or morphological signatures can point in different
-directions---a property we term direction instability (DI).  Because DI
+directions---a property called direction instability (DI).  Because DI
 normalizes each signature to unit length before comparison, it is immune
 to the first-order magnitude confound that dominates alternative
-geometric metrics.  A companion study established this immunity and
-showed that DI predicts cross-cell-line mechanism transport
-(pre-registered, construction-neutral AUROC $= 0.945$).
+geometric metrics.  A companion study established this immunity, validated
+DI through three independent non-cosine biological channels, and showed
+that DI predicts cross-cell-line mechanism transport (pre-registered,
+construction-neutral AUROC $= 0.945$).
 
-\textbf{Results:}
 We constructed a cross-modal DI atlas spanning three measurement
 technologies---LINCS L1000 transcriptomics (8{,}949 drugs), Tahoe-100M
 single-cell transcriptomics (379 drugs), and JUMP Cell Painting
 morphology (7{,}946 CRISPR knockouts, 12{,}590 ORF
 overexpressions)---providing magnitude-corrected DI with bootstrap
-confidence intervals for every perturbation.  Using eight pre-registered
-primary tests and one exploratory analysis, we characterized what DI
-does and does not capture.  DI is
+confidence intervals for every perturbation.  Using eleven pre-registered
+primary tests and one exploratory analysis across three batches, we
+characterized what DI captures and what it does not.  DI is
 concordant across expression and morphology modalities (partial
 $\rho = 0.19$, $n = 378$ compounds, $p = 2.1 \times 10^{-4}$),
 confirming that it reflects biology rather than measurement artifact.
-DI cannot, however, be reduced to simpler gene-level features.
+DI cannot be reduced to simpler gene-level features.
 Essential genes show \emph{lower} DI ($\rho = -0.33$), inverting the
 pre-registered prediction: functional constraint produces stereotyped
 disruption, suppressing context-dependence.  Knockout and overexpression
@@ -59,12 +59,50 @@ mechanism rather than the target gene.  Expression variance, paralog
 count, and paralog expression breadth each explain under 0.4\% of DI
 variance after confound control.
 
-\textbf{Conclusions:}
+A third batch of reviewer-prompted experiments extends these results.
+DI is mechanism-structured: drug mechanism-of-action classes explain
+20\% of residualized DI variance ($\eta^2 = 0.20$, permutation
+$p < 0.001$, 80 classes), with core-machinery inhibitors (mTOR, HDAC)
+showing low DI and receptor-signaling drugs (serotonin, histamine)
+showing high DI.  The essentiality sign-flip directionally replicates on
+true cross-cell-line CRISPR data ($\rho = -0.26$, $p = 0.003$,
+$n = 128$ genes across A549 and U2OS), narrowing the interpretation from
+technical reproducibility to biological context-dependence.  A convergent
+test using DepMap dependency-score variability fails: essentiality
+breadth and dependency-score SD correlate positively
+($\rho = +0.81$), opposite to prediction, because the scalar SD
+estimand mechanically inflates with the number of cell lines showing
+any dependency.
+
 DI captures a cross-modally reproducible interaction between
 perturbation mechanism and cellular context that existing gene
 annotations do not.  The atlas, pre-registration documents, and analysis
 code are publicly available.
 \end{abstract}
+
+\section*{Author Summary}
+Direction instability (DI) measures whether a drug or gene perturbation
+acts consistently across cell types by comparing the directions of its
+effects, ignoring their strength.  A companion study validated DI and
+showed it predicts cross-cell-line drug mechanism transport.  Here I
+computed DI for nearly 55{,}000 perturbations across gene expression
+and cell morphology, then tested eleven pre-registered hypotheses about
+what drives it across three batches.  Essential genes
+have low DI---the opposite of my prediction---because functional
+constraint forces a stereotyped cellular response regardless of cell
+type.  Knocking out a gene and overexpressing it produce unrelated DI,
+so DI reflects how a perturbation mechanism interacts with cellular
+context rather than a property of the gene itself.  Expression variance,
+paralog count, and paralog expression breadth each explain under 0.4\%
+of DI variance.  A third batch of reviewer-prompted experiments shows
+that DI varies systematically by drug mechanism-of-action class
+($\eta^2 = 0.20$ after confound control) and that the essentiality
+sign-flip replicates on true cross-cell-line CRISPR data ($\rho = -0.26$,
+$n = 128$ genes).  A convergent test on DepMap dependency-score
+variability fails, exposing a construct divergence between scalar SD
+and vector cosine DI.  These results collectively show that DI
+captures mechanism-structured biology that existing gene annotations do
+not index and motivate its release as a public resource.
 
 
 %% ====================================================================
@@ -94,13 +132,18 @@ Grassmannian geodesic distance, profile variability, and optimal
 transport cost \citep{tower2026confound}.  A residual second-order
 correlation persists near zero (noise-dominated signatures inflate
 pairwise cosine dissimilarity), which we remove by magnitude correction
-(Section~\ref{sec:atlas}).  A companion study demonstrated this immunity
-across three perturbation modalities and showed that DI predicts
-cross-cell-line mechanism transport (pre-registered, construction-neutral
-AUROC $= 0.945$ on 8{,}949 LINCS drugs; \citealp{tower2026confound}).
-The present study takes DI's validity as established and asks a
-different question: what does DI capture, and what does it fail to
-capture, across modalities and perturbation types?
+(Section~\ref{sec:atlas}).  A companion study established this immunity and showed that DI predicts
+cross-cell-line mechanism transport (pre-registered,
+construction-neutral AUROC $= 0.945$ on 8{,}949 LINCS drugs;
+\citealp{tower2026confound}).  Because DI is defined through cosine
+geometry, that study validated it through three independent biological
+channels that do not involve cosine similarity: Jaccard overlap of
+perturbed gene sets (AUROC $= 0.957$), breadth of target gene expression
+across tissues ($\rho = -0.17$, $p < 0.001$), and PRISM cell-viability
+correlation ($\rho = 0.261$, $p < 0.001$).  The present study takes
+DI's validity as established and asks a different question: what does DI
+capture, and what does it fail to capture, across modalities and
+perturbation types?
 
 We constructed a DI atlas spanning three measurement technologies and
 four perturbation classes: drug perturbations measured by L1000
@@ -113,33 +156,45 @@ magnitude-corrected DI with bootstrap confidence intervals, enabling
 downstream analyses that require a calibrated measure of
 context-dependence.
 
-To characterize this resource, we pre-registered eight primary
-hypotheses across two batches before computing DI on new datasets
-(Batch~1 SHA \texttt{0d07a01}; Batch~2A SHA \texttt{a17c125}).  The
+To characterize this resource, we pre-registered eleven primary
+hypotheses across three batches before computing DI on new datasets
+(Batch~1 SHA \texttt{0d07a01}; Batch~2A SHA \texttt{a17c125};
+Batch~3 SHA \texttt{4c34699}).  The
 hypotheses test whether DI is concordant across modalities,
 whether it correlates with gene essentiality, whether it is an
-intrinsic property of genes, and whether expression variance,
-drug selectivity, or paralog buffering can explain it.
-Of these, one passes its pre-registered criterion and seven fail.  A
-ninth test---PRISM viability concordance---is exploratory.
+intrinsic property of genes, whether expression variance,
+drug selectivity, or paralog buffering can explain it, and whether
+DI is structured by drug mechanism-of-action class.
+Batch~3 was prompted by peer review of an earlier draft and adds three
+experiments: MoA-stratified DI characterization, cross-cell-line CRISPR
+replication of the essentiality sign-flip, and convergent evidence from
+DepMap dependency-score variability.
+Of the eleven primary tests, three pass their pre-registered criteria
+and eight fail.  A twelfth test---PRISM viability concordance---is
+exploratory.
 
-The failures are the core result.  Cross-modal concordance confirms
+The results are specific and constraining.  Cross-modal concordance confirms
 that DI reflects biology rather than measurement artifact: compounds
 whose transcriptomic effects vary across cell lines also produce
-variable morphological profiles.  Every other test delimits what DI
-measures.  Essential genes show \emph{low} DI, because functional
+variable morphological profiles.  Essential genes show \emph{low} DI, because functional
 constraint produces stereotyped disruption regardless of cellular
-identity.  Knockout and overexpression DI are unrelated, meaning DI
+identity---a sign-flip that directionally replicates on true
+cross-cell-line CRISPR data ($\rho = -0.26$, cpg0000 pilot, $K = 2$
+cell lines).  Knockout and overexpression DI are unrelated, meaning DI
 characterizes how a specific perturbation mechanism interacts with
 context rather than indexing a stable property of the target gene.
 Expression variance, paralog count, and paralog expression breadth
 produce correlations too small to matter biologically (partial
 $\rho < 0.07$ after confound control), ruling them out as explanations
-for DI variation.
+for DI variation.  DI varies systematically by drug mechanism-of-action
+class: core-machinery inhibitors (mTOR, HDAC) show low DI while
+receptor-signaling drugs (serotonin agonists, histamine antagonists)
+show high DI, demonstrating that the atlas captures biologically
+interpretable structure.
 
-The failure pattern itself is the finding: DI measures something that
-existing gene annotations do not, and the atlas makes that measurement
-available at scale.
+Taken together, these results constrain DI to a dimension of
+perturbation biology that existing gene annotations do not index, and
+the atlas makes that measurement available at scale.
 
 The remainder of the paper is organized as follows.
 Section~\ref{sec:atlas} describes the atlas as a resource: datasets,
@@ -148,10 +203,13 @@ Section~\ref{sec:concordance} presents the construct validity results,
 with PRISM viability as independent corroboration.
 Section~\ref{sec:whatnot} reports the informative null and sign-flipped
 results that delimit what DI measures.
+Section~\ref{sec:batch3} presents the reviewer-prompted Batch~3
+extensions: MoA stratification, cross-cell-line CRISPR replication,
+and the DepMap convergent-evidence failure.
 Section~\ref{sec:integrity} describes the pre-registration protocol and
 deviations.
-Section~\ref{sec:discussion} synthesizes the failure pattern into a
-characterization of DI as an irreducible perturbation property.
+Section~\ref{sec:discussion} synthesizes the results into a
+characterization of what DI measures.
 
 
 %% ====================================================================
@@ -175,6 +233,15 @@ cell lines per drug; \citealp{tahoe2025}), JUMP-CP CRISPR knockouts
 contexts; \citealp{chandrasekaran2025morphmap}), and JUMP-CP ORF
 overexpressions (12{,}590 genes, 722 features, plate replicates as
 contexts; \citealp{chandrasekaran2025morphmap}).
+An important asymmetry: LINCS and Tahoe compute DI over cell lines,
+measuring biological context-dependence, while JUMP-CP CRISPR and ORF
+compute DI over plate replicates within a single cell line, measuring
+technical reproducibility.  The two concordance tests
+(Section~\ref{sec:concordance}) compare datasets that share the same
+context type (cell lines), but the essentiality, mechanism-specificity,
+and proxy tests (Section~\ref{sec:whatnot}) use plate-replicate DI.
+Section~\ref{sec:discussion} discusses how this distinction affects
+interpretation.
 
 \vspace{1em}
 \begin{table}[htbp]
@@ -193,11 +260,12 @@ genes; the actual count after quality filtering is 12{,}590.}
 \midrule
 LINCS L1000       & Transcriptomic & 8{,}949 drugs      & 978                & Cell lines       & Pre-computed \\
 Tahoe-100M        & Transcriptomic & 379 drugs           & ${\sim}$62{,}700   & Cell lines       & HuggingFace \\
-JUMP-CP compounds & Morphological  & 25{,}254 compounds & 3{,}180            & Source ctx.      & Pre-computed \\
+JUMP-CP compounds & Morphological  & 25{,}254 compounds & 3{,}180            & Varied$^{\dagger}$  & Pre-computed \\
 JUMP-CP CRISPR    & Morphological  & 7{,}946 genes       & 259                & Plate reps       & CPG \\
 JUMP-CP ORF       & Morphological  & 12{,}590 genes      & 722                & Plate reps       & CPG \\
 \bottomrule
-\multicolumn{6}{@{}l}{\footnotesize CPG = Cell Painting Gallery (cpg0016).}
+\multicolumn{6}{@{}l}{\footnotesize CPG = Cell Painting Gallery (cpg0016).
+$^{\dagger}$Context definitions vary by compound; see companion study \citep{tower2026confound}.}
 \end{tabular}
 \end{table}
 
@@ -207,6 +275,20 @@ cell viability (log-fold-change) rather than high-dimensional profiles,
 so cosine-based DI is undefined.  We compute the coefficient of
 variation (CV) of viability across cell lines as a scalar analogue of
 context-dependence.  PRISM results are labeled exploratory throughout.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_di_distributions.pdf}
+\caption{Distribution of magnitude-corrected DI across the three new
+atlas datasets.  Dashed lines mark medians.  Tahoe-100M drug DI
+(median~$= 0.84$) spans a wider range than the genetic perturbation
+datasets (CRISPR median~$= 0.94$, ORF median~$= 1.05$), consistent
+with drugs engaging more diverse mechanisms.  CRISPR and ORF
+distributions are concentrated near 1 (near-orthogonal signatures
+across plate replicates), reflecting the high baseline noise of
+morphological profiling at plate-replicate resolution.}
+\label{fig:distributions}
+\end{figure}
 
 \subsection{DI computation}
 
@@ -334,9 +416,7 @@ lack PubChem CID annotations mapping to LINCS InChIKeys).  LINCS DI is
 computed in $\mathbb{R}^{978}$ (landmark genes) while Tahoe DI is
 computed in $\mathbb{R}^{\sim 62{,}000}$ (full transcriptome).  Because
 cosine similarity is dimensionless and scale-invariant, DI values are
-comparable across feature spaces of different dimensionality; a
-supplementary analysis restricting Tahoe signatures to the 978 landmark
-genes would provide a direct dimensionality-matched comparison.
+comparable across feature spaces of different dimensionality.
 
 Partial Spearman $\rho = 0.254$ (95\% CI $[0.027, 0.456]$,
 $p = 0.029$), controlling for LINCS and Tahoe $n_{\mathrm{contexts}}$
@@ -378,35 +458,45 @@ sign-flip}
 \label{sec:whatnot}
 %% ====================================================================
 
-Five pre-registered experiments tested whether DI variation across genes
-and drugs can be explained by simpler biological properties.  All five
-fail their pre-registered criteria, and each failure constrains the
-interpretation of DI in a specific way.  Table~\ref{tab:results}
-summarizes the full scorecard.
+Five pre-registered experiments (Batches~1 and 2A) tested whether DI
+variation across genes and drugs can be explained by simpler biological
+properties.  All five fail their pre-registered criteria, and each
+failure constrains the interpretation of DI in a specific way.
+Table~\ref{tab:results} summarizes the full scorecard including the
+Batch~3 extensions (Section~\ref{sec:batch3}).
 
 \vspace{1em}
 \begin{table}[htbp]
 \centering
-\caption{Pre-registered experiment results.  All tests use partial
-Spearman $\rho$ with confound control except the knockout vs.\
-overexpression test (raw Spearman + permutation null).  ``CI gate'' indicates that the 95\% CI
-lower bound did not clear the $\pm 0.05$ threshold in the predicted
-direction.}
+\caption{Pre-registered experiment results.  Batches~1--2A use partial
+Spearman $\rho$ with confound control ($\alpha = 0.0125$ for Batch~1,
+$0.0167$ for Batch~2A) except the KO vs.\ OE test (raw Spearman +
+permutation null).  Batch~3 ($\alpha = 0.0167$, three tests) was
+prompted by peer review; Experiment~F reports partial $\eta^2$ instead
+of $\rho$.  ``CI gate'' indicates that the 95\% CI lower bound did not
+clear the $\pm 0.05$ threshold in the predicted direction.}
 \label{tab:results}
-\begin{tabular}{@{}lrrrl@{}}
+\small
+\begin{tabular}{@{}llrrrl@{}}
 \toprule
-\textbf{Hypothesis} & $n$ &
-\textbf{Partial} $\rho$ & $p$ & \textbf{Verdict} \\
+\textbf{Batch} & \textbf{Hypothesis} & $n$ &
+\textbf{Effect} & $p$ & \textbf{Verdict} \\
 \midrule
-Cross-modal concordance & 378 & 0.190 & $2.1 \times 10^{-4}$ & \textbf{PASS} \\
-Same-modality concordance & 76 & 0.254 & 0.029 & FAIL (CI gate) \\
-Essentiality $\to$ high DI & 7{,}653 & $-$0.332 & ${\sim}0$ & FAIL (wrong sign) \\
-KO $\approx$ OE DI & 5{,}220 & 0.011 & 0.43 & FAIL (null) \\
-Expression variance & 7{,}802 & 0.060 & $1.1 \times 10^{-7}$ & FAIL (CI gate) \\
-Drug selectivity & 75 & 0.144 & 0.22 & FAIL (underpowered) \\
-Paralog count & 6{,}894 & $-$0.007 & 0.57 & FAIL (null) \\
-Paralog breadth & 6{,}882 & $-$0.029 & 0.015 & FAIL (CI gate) \\
-Viability concordance & 75 & 0.359 & 0.0016 & Exploratory PASS \\
+1 & Cross-modal concordance & 378 & $\rho = 0.190$ & $2.1 \times 10^{-4}$ & \textbf{PASS} \\
+1 & Same-modality concordance & 76 & $\rho = 0.254$ & 0.029 & FAIL (CI gate) \\
+1 & Essentiality $\to$ high DI & 7{,}653 & $\rho = -0.332$ & ${\sim}0$ & FAIL (wrong sign) \\
+1 & KO $\approx$ OE DI & 5{,}220 & $\rho = 0.011$ & 0.43 & FAIL (null) \\
+2A & Expression variance & 7{,}802 & $\rho = 0.060$ & $1.1 \times 10^{-7}$ & FAIL (CI gate) \\
+2A & Drug selectivity & 75 & $\rho = 0.144$ & 0.22 & FAIL (underpowered) \\
+2A & Paralog count & 6{,}894 & $\rho = -0.007$ & 0.57 & FAIL (null) \\
+2A & Paralog breadth & 6{,}882 & $\rho = -0.029$ & 0.015 & FAIL (CI gate) \\
+\midrule
+3 & MoA stratification (F) & 1{,}031 & $\eta^2 = 0.201$ & ${<}0.001$ & \textbf{PASS} \\
+3 & Cross-cell-line ess.\ (G) & 128 & $\rho = -0.264$ & 0.003 & \textbf{PASS} \\
+3 & DepMap convergent (H) & 17{,}916 & $\rho = +0.811$ & ${\sim}0$ & FAIL (wrong sign) \\
+\midrule
+\multicolumn{6}{@{}l}{\textit{Exploratory}} \\
+--- & Viability concordance & 75 & $\rho = 0.359$ & 0.0016 & PASS (exploratory) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -440,9 +530,9 @@ breadth (fraction of DepMap 24Q4 cell lines with Chronos score
 $< -0.5$; \citealp{funk2022phenotypic}) predicts \emph{lower} DI,
 accounting for approximately 11\% of variance.
 
-The sign-flip has a straightforward interpretation, which we emphasize
-is \emph{post-hoc}: the pre-registered prediction confused two senses
-of context-dependence.  Essential genes affect many cell types, but they
+The sign-flip admits a natural interpretation, which we emphasize
+is \emph{post-hoc}: the pre-registration confused two senses of
+context-dependence.  Essential genes affect many cell types, but they
 affect them in the same way.  A gene required for mitosis, ribosome
 assembly, or DNA repair produces a stereotyped catastrophe regardless of
 cellular identity.  Functional constraint makes the downstream
@@ -462,6 +552,19 @@ The result connects DI to established concepts in functional genomics:
 the phenotypic landscape of essential genes is structured by functional
 constraint \citep{funk2022phenotypic, ramezani2025periscope}, and DI
 indexes the complement of that constraint.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.65\textwidth]{figures/fig_essentiality_scatter.pdf}
+\caption{Essentiality breadth (fraction of DepMap cell lines with
+Chronos $< -0.5$) vs.\ magnitude-corrected DI for $n = 7{,}627$ JUMP-CP
+CRISPR genes.  The pre-registration predicted a positive correlation;
+the observed relationship is negative ($\rho = -0.31$).  Genes
+essential across many cell lines produce stereotyped disruption
+(low DI), while selectively essential or non-essential genes show more
+context-dependent phenotypes (high DI).  Line: OLS fit.}
+\label{fig:essentiality}
+\end{figure}
 
 
 \subsection{DI is mechanism-specific}
@@ -488,6 +591,17 @@ context-dependent in a particular way (knockout, overexpression,
 pharmacological inhibition), and DI values from one perturbation type
 carry no information about another.  A DI atlas must be stratified by
 perturbation mechanism.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.65\textwidth]{figures/fig_ko_vs_oe_scatter.pdf}
+\caption{Knockout DI (JUMP-CP CRISPR) vs.\ overexpression DI (JUMP-CP
+ORF) for $n = 5{,}220$ genes profiled under both perturbation types.
+Spearman $\rho = 0.011$ ($p = 0.43$): no relationship.  Context-dependence
+is a property of the perturbation mechanism interacting with cellular
+context, not a stable property of the target gene.}
+\label{fig:ko_vs_oe}
+\end{figure}
 
 
 \subsection{Proxy explanations fail}
@@ -556,7 +670,7 @@ smaller.  This experiment cannot distinguish a real $\rho = 0.15$ effect
 from zero.
 
 
-\subsection{Summary: DI is irreducible}
+\subsection{Summary of Batches 1--2A}
 
 The Batch~2A nulls, combined with the Batch~1 essentiality sign-flip
 and mechanism-specificity result, establish that DI variation across
@@ -565,10 +679,146 @@ Essentiality predicts the sign of DI (low) but through a mechanism
 (functional constraint) that the pre-registration did not anticipate.
 Expression variance, paralog count, and paralog breadth each contribute
 less than 0.4\% of variance after confound control.  Drug selectivity
-remains unresolved due to insufficient sample size.  The picture that
-emerges is one of specificity: DI captures how a perturbation mechanism
-interacts with the cell's compensatory network, and this interaction is
-orthogonal to the gene-level features tested here.
+remains unresolved due to insufficient sample size.  DI captures how a
+perturbation mechanism interacts with the cell's compensatory network,
+and this interaction is orthogonal to the gene-level features tested
+here.  Three reviewer-prompted experiments (Section~\ref{sec:batch3})
+extend this characterization.
+
+
+%% ====================================================================
+\section{Reviewer-prompted extensions (Batch 3)}
+\label{sec:batch3}
+%% ====================================================================
+
+Batch~3 addresses three concerns raised in peer review of an earlier
+draft: (F)~whether the atlas demonstrates utility beyond negative
+results, (G)~whether the essentiality sign-flip survives on true
+cross-cell-line morphological data, and (H)~whether convergent evidence
+from a different data modality supports the functional-constraint
+interpretation.  All three experiments were pre-registered at commit SHA
+\texttt{4c34699} before execution, with Bonferroni-corrected
+$\alpha = 0.0167$ (three tests).
+
+\paragraph{Scoping disclosure.}
+During exploratory scoping for Experiment~F, a raw (uncontrolled)
+one-way ANOVA of DI on MoA class was computed and showed
+$\eta^2 \approx 0.42$.  The raw number was observed before the
+pre-registration was frozen.  The confirmatory test registered here is
+the confound-controlled, permutation-tested version, whose result was
+unseen at freeze time.  Experiment~F is therefore
+exploratory-then-confirmed, and is disclosed as such.
+
+\subsection{Experiment F: DI is mechanism-structured}
+
+The Batch~1 and 2A results showed what DI is not explained by.  A
+natural follow-up: does DI vary systematically with drug
+mechanism-of-action class?  If core-machinery inhibitors (targeting
+fundamental cellular processes) show low DI while receptor-signaling
+drugs (engaging cell-type-specific pathways) show high DI, then DI
+captures biologically interpretable structure, and the atlas stratifies
+drug classes in a useful way.
+
+Because DI depends mechanically on profiling depth (number of cell
+lines) and MoA classes may differ in profiling depth, the primary
+analysis uses residualized DI: raw DI residualized on
+$n_{\mathrm{cell\,lines}}$ and mean signature norm via OLS.  One-way
+ANOVA of residualized DI on MoA class (80 classes with $\geq 5$ drugs,
+1{,}031 drugs total) yields partial $\eta^2 = 0.201$.  The raw
+(uncontrolled) $\eta^2$ is 0.417; controlling for profiling depth and
+signal strength halves the effect, confirming that the confound control
+is load-bearing.
+
+A 1{,}000-permutation null (shuffling MoA labels, preserving class
+sizes) produced a null distribution with mean $= 0.077$,
+SD $= 0.012$, 99th percentile $= 0.111$.  The observed
+$\eta^2 = 0.201$ exceeds the 99th percentile and the empirical
+permutation $p < 0.001$.  Both pre-registered criteria are met.
+
+The biological pattern is interpretable.  The lowest-DI MoA classes are
+mTOR inhibitors, HDAC inhibitors, HSP inhibitors, and PI3K
+inhibitors---drugs targeting core cellular machinery that operates
+uniformly across cell types.  The highest-DI classes are serotonin
+receptor agonists, histamine receptor agonists, GABA receptor
+antagonists, and PPAR receptor agonists---drugs acting through
+receptor-mediated signaling pathways whose expression and coupling vary
+across cell lineages.
+
+This result demonstrates that DI captures mechanism-level structure in
+drug pharmacology and that the atlas provides a resource for stratifying
+drug classes by their cross-context consistency.
+
+\subsection{Experiment G: cross-cell-line essentiality replication}
+
+The Batch~1 essentiality sign-flip ($\rho = -0.33$, $n = 7{,}653$) was
+computed on plate-replicate DI within a single cell line (U2OS).  Plate
+replicates measure technical reproducibility, and reviewers asked whether
+the sign-flip reflects biology or plate-level noise.
+
+The cpg0000 pilot dataset (Cell Painting Gallery) provides CRISPR
+profiles from two cell lines: A549 (10 plates) and U2OS (8 plates).
+With $K = 2$ cell lines, DI degenerates to a single pairwise cosine
+distance: $\mathrm{DI} = 1 - \cos(\mathbf{s}_{\mathrm{A549}},
+\mathbf{s}_{\mathrm{U2OS}})$.  This is geometrically valid but
+extremely noisy per gene (no averaging over pairs).  Cell line
+assignments were obtained from the companion metadata repository
+\citep{chandrasekaran2024cpjump1}.
+
+Of 128 genes with profiles in both cell lines, Spearman
+$\rho = -0.264$ (95\% CI $[-0.418, -0.095]$, $p = 0.003$,
+$n = 128$).  The correlation is negative, statistically significant
+at $\alpha = 0.0167$, and the CI excludes zero.  The pre-registered
+verdict is \textbf{directional replication}: the essentiality sign-flip
+observed on plate replicates replicates in direction on true
+cross-cell-line data, narrowing the interpretation from technical noise
+to biological context-dependence.
+
+The point estimate ($\rho = -0.26$) is smaller than Batch~1
+($\rho = -0.33$), consistent with the expected attenuation from $K = 2$
+noise.  The CI is wide ($[-0.42, -0.10]$), reflecting the small
+sample size ($n = 128$ vs.\ Batch~1's $n = 7{,}653$) and the
+degeneracy of single-cosine DI.  This experiment narrows the
+interpretation of the sign-flip; it does not close it.  Properly powered
+cross-cell-line replication requires datasets with $K \geq 5$ cell
+lines per gene, such as future expansions of JUMP or single-cell CRISPR
+screens \citep{tahoe2025}.
+
+\subsection{Experiment H: DepMap convergent evidence fails}
+
+The biological interpretation of the essentiality sign-flip---functional
+constraint suppresses context-dependent phenotypes---predicts that the
+same pattern should appear in dependency scores: broadly essential genes
+should show uniform dependency across cell lines (low variability),
+while selectively essential genes should show variable dependency (high
+variability).  Testing this on DepMap Chronos scores provides convergent
+evidence from a fundamentally different measurement.
+
+Partial Spearman $\rho = +0.811$ (95\% CI $[0.806, 0.816]$,
+$p \approx 0$, $n = 17{,}916$), controlling for the number of
+non-missing Chronos values per gene.  The pre-registered prediction
+was negative ($\rho < -0.05$); the observed correlation is strongly
+positive.  This test fails.
+
+The failure has a mechanical explanation.  DepMap essentiality breadth
+(fraction of cell lines with Chronos $< -0.5$) and dependency-score SD
+are different geometric constructs from morphological DI.  Morphological
+DI measures pairwise cosine distance between high-dimensional vectors;
+dependency-score SD measures the spread of scalar values.  A gene
+essential in many cell lines mechanically has a wider range of Chronos
+scores (some near $-1$, others near $-0.5$), producing high SD.  The
+positive correlation reflects this scalar-range artifact: broadly
+essential genes trivially show high dependency-score variability because
+the Chronos scale admits more spread as more cell lines cross the
+essentiality threshold.
+
+This failure is informative.  It exposes a construct divergence: the
+functional-constraint hypothesis makes different predictions depending
+on whether context-dependence is measured as vector cosine distance
+(morphological DI) or scalar variability (dependency-score SD).  The
+morphological sign-flip stands; the convergent pathway through DepMap SD
+does not replicate it.  A convergent test using a vector-valued DepMap
+representation (such as gene-expression signatures of knockout effects
+across cell lines) would avoid this scalar artifact.
 
 
 %% ====================================================================
@@ -577,14 +827,28 @@ orthogonal to the gene-level features tested here.
 %% ====================================================================
 
 All hypotheses, decision criteria, statistical methods, and analysis
-code were frozen before DI was computed on new datasets.  Batch~1
+code were frozen before execution.  Batch~1
 (concordance, essentiality, knockout vs.\ overexpression, PRISM) was
 frozen at commit SHA \texttt{0d07a01}; Batch~2A (expression variance,
 drug selectivity, paralog count, paralog breadth) at commit SHA
-\texttt{a17c125}.  The pre-registration documents specify the
-partial Spearman method, Bonferroni correction levels, CI floor
-thresholds, power analyses, and interpretation guides for each outcome.
-Both documents are included in the repository.
+\texttt{a17c125}; Batch~3 (MoA stratification, cross-cell-line CRISPR,
+DepMap convergent) at commit SHA \texttt{4c34699}.  The pre-registration
+documents specify the statistical method, Bonferroni correction levels,
+decision criteria, power analyses, and interpretation guides for each
+outcome.  All three documents are included in the repository.
+
+Batch~3 was prompted by peer review of an earlier draft (desk-rejected
+from GigaScience for scope, GIGA-D-26-00229, 2026-07-08).  The
+experiments are pre-registered before execution but are
+reviewer-prompted, post-hoc additions---timestamps are verifiable
+against the repository history.  Experiment~F includes a scoping
+disclosure: the raw $\eta^2 \approx 0.42$ was observed during
+exploratory scoping before the confirmatory (confound-controlled,
+permutation-tested) analysis was frozen.  Experiment~G's analysis logic
+is byte-identical between the frozen commit and the executed version;
+only the data download function was modified post-freeze to correct S3
+paths (the original paths returned 404 errors).  This deviation is
+documented in the repository.
 
 \subsection{The CI floor}
 
@@ -628,23 +892,35 @@ resolving the spurious null.  The name-matched result is reported in
 Section~\ref{sec:concordance} as a documented deviation; the InChIKey
 result is the pre-registered analysis.
 
-\paragraph{Other deviations.}
+\paragraph{Batches 1--2A deviations.}
 (i)~Cross-modal concordance yielded $n = 378$ instead of the estimated $n = 330$, because
 \texttt{pert\_iname} matching recovered more valid InChIKey pairs than
 anticipated.
 (ii)~\texttt{pert\_iname} was used instead of \texttt{pert\_id} for
 LINCS metadata lookup; \texttt{pert\_id} matching was a data-wrangling
 error yielding only 8 compounds.
-(iii)~LINCS and Tahoe contexts are cell lines; JUMP-CP CRISPR and ORF
-contexts are plate replicates.  This asymmetry in context definitions is
-inherent to the datasets and does not affect within-dataset DI
-computation, but cross-dataset comparisons should be interpreted with
-this caveat.
+(iii)~Context definitions differ across datasets (cell lines vs.\ plate
+replicates); see Section~\ref{sec:atlas} and Section~\ref{sec:discussion}.
 (iv)~Drug selectivity yielded $n = 75$ instead of the estimated $n \sim 1{,}000$ due
 to the small LINCS-PRISM overlap after viability filtering.
 (v)~Nine genes were dropped from the paralog tests due to missing
 expression values, leaving $n = 6{,}894$ (paralog count) and
 $n = 6{,}882$ (paralog breadth).
+
+\paragraph{Batch 3 deviations.}
+(i)~Experiment~F: The scoping disclosure (raw $\eta^2$ observed before
+freeze) is described above.  The confirmatory analysis
+(confound-controlled, permutation-tested) was unseen at freeze time.
+(ii)~Experiment~G: The pre-registration estimated $n \approx 160$ shared
+genes; the actual overlap with DepMap is $n = 128$ (deterministic:
+genes present in both cell lines with non-zero signature norms).
+The data download function was modified post-freeze to use the correct
+S3 paths; the analysis logic (DI computation, correlation, CI) is
+byte-identical to the frozen version.
+(iii)~After obtaining the Experiment~G result, bootstrap and
+timepoint-stratified sensitivity analyses were run exploratorily.
+These were not pre-registered and are excluded from the manuscript
+(documented in \texttt{DEVIATIONS.md}).
 
 
 %% ====================================================================
@@ -652,28 +928,51 @@ $n = 6{,}882$ (paralog breadth).
 \label{sec:discussion}
 %% ====================================================================
 
-\subsection{DI as an irreducible axis}
+\subsection{What DI measures---and what it does not}
 
-Nine pre-registered experiments produce a consistent characterization of
-direction instability.  DI is concordant across measurement modalities,
-confirming that it reflects a biological property of perturbation-context
-interactions.  It is mechanism-specific: knockout and overexpression
-of the same gene produce unrelated DI profiles, so DI characterizes how
-a perturbation mechanism interacts with cellular context, not a stable
-property of the target gene.  Functional constraint suppresses DI:
-essential genes produce stereotyped disruption, yielding low DI.  And
-three plausible proxy explanations---expression variance, paralog count,
+Eleven pre-registered experiments produce a consistent characterization
+of direction instability.  DI is concordant across measurement
+modalities, confirming that it reflects a biological property of
+perturbation-context interactions.  It is mechanism-specific: knockout
+and overexpression of the same gene produce unrelated DI profiles, so DI
+characterizes how a perturbation mechanism interacts with cellular
+context, not a stable property of the target gene.  Functional
+constraint suppresses DI: essential genes produce stereotyped disruption,
+yielding low DI---a sign-flip that directionally replicates on true
+cross-cell-line CRISPR data ($\rho = -0.26$, cpg0000 pilot).  Three
+plausible proxy explanations---expression variance, paralog count,
 paralog breadth---each explain less than 0.4\% of DI variance after
 confound control.
 
-This combination of positive and negative results defines DI as an
-irreducible axis of perturbation characterization.  It captures
-something about how perturbation mechanisms cascade through
-cell-type-specific compensatory networks, and that something is
-orthogonal to the gene-level annotations tested here.  The irreducibility
-is itself a characterization of the atlas: users should expect DI to
-provide information beyond what is available from essentiality screens,
-expression atlases, or paralog databases.
+DI is also mechanism-structured at the pharmacological level: drug MoA
+classes explain 20\% of residualized DI variance, with an interpretable
+pattern distinguishing core-machinery inhibitors (low DI) from
+receptor-signaling drugs (high DI).  This result demonstrates that the
+atlas provides a resource for stratifying drug classes by cross-context
+consistency, a property complementary to traditional selectivity
+metrics.
+
+The DepMap convergent test exposes a boundary of the
+functional-constraint interpretation.  Dependency-score SD and
+essentiality breadth correlate positively ($\rho = +0.81$), opposite to
+the morphological sign-flip, because the scalar SD estimand mechanically
+inflates with the Chronos score range.  The functional-constraint
+hypothesis makes different predictions depending on whether
+context-dependence is measured as vector cosine distance or scalar
+variability.  The morphological sign-flip is about directional
+consistency of high-dimensional profiles; DepMap SD indexes scalar
+spread.  Future convergent tests should use vector-valued representations
+of dependency effects.
+
+This combination of positive, negative, and failed results shows that DI
+captures something about how perturbation mechanisms interact with
+cell-type-specific biology that is orthogonal to essentiality,
+expression variance, and paralog structure.  Other untested features
+such as protein interaction network topology or chromatin accessibility
+might correlate with DI; the present results constrain the space of
+explanations without exhausting it.  For atlas users, the practical
+implication is that DI provides information beyond what is available
+from essentiality screens, expression atlases, or paralog databases.
 
 \subsection{The resource}
 
@@ -732,6 +1031,20 @@ tissue-restricted expression should positively predict DI
 (Section~\ref{sec:whatnot}).  Prospective testing of this prediction
 would convert a post-hoc rationalization into a validated mechanism.
 
+LINCS L1000 has well-documented batch effects across production sites
+and plates \citep{subramanian2017next}.  If a drug was profiled across
+batches, batch-driven direction differences would inflate DI
+independently of biology.  The companion study's split-half stability
+analysis (recomputing DI on random halves of cell lines) provides
+indirect reassurance that DI estimates are stable, but a direct test of
+whether DI correlates with batch structure has not been performed.
+
+All DI values are computed at the dose used in each screening campaign.
+Dose-response effects could change a drug's DI: a compound that is
+highly selective at low dose might become promiscuous at high dose,
+altering its context-dependence.  The atlas does not capture this
+dose-dependent structure.
+
 The drug selectivity test is underpowered at $n = 75$ and cannot
 distinguish a moderate effect from zero.  Both underpowered tests
 (same-modality concordance and drug selectivity) are data-limited: the small $n$ reflects the structural size of
@@ -741,9 +1054,35 @@ for completeness and for the atlas resource record, not as adjudicated
 hypotheses.  Larger drug-viability datasets or compound selectivity
 metrics from dose-response screens would provide more informative tests.
 
+Experiment~G computes DI from $K = 2$ cell lines, the minimum for a
+pairwise comparison.  With $K = 2$, DI is a single cosine distance
+rather than an average over pairs, making it extremely noisy per gene.
+No magnitude correction was applied ($n = 128$ is too small for
+meaningful OLS), and no bootstrap CIs are possible ($K = 2$ admits
+only one bootstrap resample pattern).  The A549 plates vary in timepoint
+(96h vs.\ 144h) and antibiotic treatment, introducing uncontrolled
+confounds.  The experiment's value is as a directional check on the
+essentiality sign-flip, not a definitive test.
+
+Experiment~F's raw $\eta^2 = 0.42$ was observed during scoping before
+the confirmatory analysis was frozen; the experiment is therefore
+exploratory-then-confirmed rather than blind.  The confound-controlled
+$\eta^2 = 0.20$ is the primary result.
+
+DI is defined as $1 - \overline{\cos}$, which means the metric is a
+reparameterization of mean pairwise cosine similarity (Pearson
+$r = -1.0$ by construction).  This is a property of the definition, not
+a finding, and should not be mistaken for an empirical result.
+
+Experiment~H exposes a construct divergence: scalar dependency-score SD
+and vector cosine DI measure different geometric properties of
+context-dependence.  The positive $\rho = +0.81$ does not falsify the
+morphological sign-flip; it shows that the functional-constraint
+hypothesis generates different predictions under different operationalizations.
+
 \subsection{Future directions}
 
-Three extensions follow naturally from the current results.  First,
+Four extensions follow naturally from the current results.  First,
 Batch~2B will test whether DI correlates with Shesha geometric
 stability \citep{raju2026a, raju2026b}, a concurrent and independently
 developed measure of perturbation coherence computed on single-cell
@@ -753,22 +1092,32 @@ overexpression-unstable genes; 289 with the opposite pattern) may reveal
 functional categories associated with mechanism-specific
 context-dependence.  Third, expanding the Tahoe drug-InChIKey
 annotation would increase the same-modality concordance sample size and provide a properly
-powered same-modality concordance test.
+powered same-modality concordance test.  Fourth, a properly powered
+cross-cell-line CRISPR replication ($K \geq 5$ cell lines per gene)
+would resolve the essentiality sign-flip interpretation definitively;
+future expansions of JUMP or single-cell CRISPR screens
+\citep{tahoe2025} may provide such data.
 
-More broadly, the irreducibility of DI to existing gene annotations
-suggests that it indexes an aspect of gene function---the structure of
-the compensatory network a perturbation engages---that current
-annotation systems do not capture.  Whether this structure can be
-predicted from protein interaction networks, pathway topology, or
-genomic context remains an open question.
+More broadly, the failure of tested gene-level annotations to
+explain DI, combined with the success of pharmacological MoA class in
+structuring it, suggests that DI indexes an aspect of perturbation
+biology---the interaction between mechanism and cellular
+context---that gene-level annotations do not capture.  Whether this
+interaction can be predicted from protein interaction networks, pathway
+topology, or chromatin accessibility remains an open question.
 
 \section{Conclusion}
 
-Direction instability is concordant across measurement modalities,
-mechanism-specific, shaped by functional constraint, and orthogonal to
-expression variance, paralog count, and paralog breadth.  This
-combination of one positive and seven negative pre-registered results
-defines DI as an irreducible axis of perturbation characterization.  The
+Eleven pre-registered experiments across three batches characterize
+direction instability as a metric that is concordant across measurement
+modalities, mechanism-specific, shaped by functional constraint, and
+structured by pharmacological mechanism-of-action class.  DI is
+orthogonal to expression variance, paralog count, and paralog
+breadth.  The essentiality sign-flip---functional constraint suppresses
+DI---directionally replicates on cross-cell-line CRISPR data.  A
+convergent test on DepMap dependency-score variability fails, exposing a
+construct divergence between scalar SD and vector cosine DI that
+bounds the generality of the functional-constraint interpretation.  The
 atlas provides magnitude-corrected DI values with bootstrap confidence
 intervals for 8{,}949 drugs, 379 single-cell-profiled drugs, 7{,}946
 CRISPR knockouts, and 12{,}590 ORF overexpressions, ready for
@@ -789,7 +1138,21 @@ the MIT License.
 
 \section*{Data availability}
 
-All atlas data files, experiment result files, pre-registration documents, and analysis code are deposited on Zenodo (DOI: 10.5281/zenodo.21223668) under a CC-BY-4.0 license. Pre-registration commits can be verified against the repository history at the SHA values reported in the text. LINCS L1000 compound DI values (8,949 drugs) and JUMP-CP compound DI values (25,254 compounds) were previously computed and are available from the companion study (DOI: 10.5281/zenodo.21213700). Source datasets are available from their original repositories: LINCS L1000 (GEO: GSE92742), Tahoe-100M (HuggingFace: tahoebio/Tahoe-100M), JUMP Cell Painting (Cell Painting Gallery, cpg0016), DepMap 24Q4 (figshare: 27993248), PRISM (figshare: Repurposing Public 24Q2), Ensembl paralogs (BioMart, GRCh38).
+All atlas data files (per-perturbation DI values with bootstrap CIs for
+each of the five datasets), experiment result files, pre-registration
+documents, and analysis code are deposited on Zenodo
+(DOI: 10.5281/zenodo.21223668) under a CC-BY-4.0 license.
+Pre-registration commits can be verified against the repository history
+at the SHA values reported in the text.  LINCS L1000 compound DI values
+(8{,}949 drugs) and JUMP-CP compound DI values (25{,}254 compounds)
+were previously computed and are available from the companion study
+(DOI: 10.5281/zenodo.21213700).
+
+Source datasets are available from their original repositories: LINCS
+L1000 (GEO: GSE92742), Tahoe-100M (HuggingFace: tahoebio/Tahoe-100M),
+JUMP Cell Painting (Cell Painting Gallery, cpg0016), DepMap 24Q4
+(figshare: 27993248), PRISM (figshare: Repurposing Public 24Q2),
+Ensembl paralogs (BioMart, GRCh38).
 
 \section*{Declarations}
 
@@ -806,7 +1169,7 @@ None. This work was conducted independently.
 E.T. conceived the study, designed and pre-registered the hypotheses, collected and processed data, wrote the analysis code, performed all analyses, and wrote the manuscript.
 
 \paragraph{Acknowledgements.}
-The author used Claude Code \cite{claudecode} to assist with drafting and editing manuscript text and with writing and debugging analysis code. Perplexity \cite{perplexityai} was used as an independent reviewer of the near-final draft. The author reviewed and verified all outputs, takes full responsibility for the accuracy and integrity of the work, and confirms that all hypotheses, pre-registered predictions, interpretations, and conclusions are the author's own. No AI tool is listed as an author, and no AI-generated content was used as a primary data source.
+The author used Claude Code (Anthropic, \url{https://claude.ai/code}) to assist with drafting and editing manuscript text and with writing and debugging analysis code. Perplexity (\url{https://perplexity.ai}) was used as an independent reviewer of the near-final draft. The author reviewed and verified all outputs, takes full responsibility for the accuracy and integrity of the work, and confirms that all hypotheses, pre-registered predictions, interpretations, and conclusions are the author's own. No AI tool is listed as an author, and no AI-generated content was used as a primary data source.
 
 \begin{thebibliography}{99}
 
@@ -875,16 +1238,6 @@ Tower, E. (2026).
 Direction instability tracks drug mechanism transport while geometric alternatives measure magnitude.
 Zenodo. \texttt{doi:10.5281/zenodo.21213700}.
 
-\bibitem[Anthropic, 2025]{claudecode}
-Anthropic.
-Claude Code.
-\url{https://claude.ai/code}, 2025.
-
-\bibitem[Perplexity AI, 2025]{perplexityai}
-Perplexity AI.
-Perplexity.
-\url{https://perplexity.ai}, 2025.
-
 \end{thebibliography}
 
 \clearpage
@@ -894,7 +1247,7 @@ Perplexity.
 \label{app:prereg}
 
 All hypotheses, decision criteria, statistical methods, and analysis
-code were frozen before DI was computed on new datasets.  The two
+code were frozen before execution.  The three
 pre-registration documents are included in the Zenodo deposit.
 
 \vspace{1em}
@@ -912,6 +1265,8 @@ Batch~1 & \texttt{0d07a01} & A1 (LINCS--Tahoe concordance), A2
   (exploratory) \\
 Batch~2A & \texttt{a17c125} & E2 (expression variance), E3 (drug
   selectivity), E5a (paralog count), E5b (paralog breadth) \\
+Batch~3 & \texttt{4c34699} & F (MoA stratification), G (cross-cell-line
+  CRISPR essentiality), H (DepMap convergent evidence) \\
 \bottomrule
 \multicolumn{3}{@{}p{12cm}}{\footnotesize Two Batch~1 experiments were
 dropped before analysis: A3 (Tahoe--JUMP concordance; zero compound
@@ -919,7 +1274,8 @@ overlap between clinical drugs and screening library) and B (MOA
 stratification in Tahoe; structurally underpowered at $n = 7$ vs.\
 $n = 17$). Batch~2A labels E2/E3/E5 are non-consecutive because the
 pre-registration proposed three specific explanatory hypotheses, not a
-sequential series.}
+sequential series. Batch~3 was prompted by peer review and frozen at a
+separate SHA with its own $\alpha = 0.0167$ (three tests).}
 \end{tabular}
 \end{table}
 
@@ -927,9 +1283,9 @@ sequential series.}
 The DI computation (Equation~\ref{eq:di}), the magnitude correction
 (Equation~\ref{eq:magnitude}), the partial Spearman method
 (Pearson-residualize then rank), the CI floor gate ($\pm 0.05$), and
-the Bonferroni correction framework were constant across both batches.
-Batch~2A added three new hypotheses with their own $\alpha = 0.0167$
-(Bonferroni for three tests).
+the Bonferroni correction framework were constant across all three
+batches.  Batch~2A and Batch~3 each added hypotheses with their own
+$\alpha = 0.0167$ (Bonferroni for three tests each).
 
 \section{Knockout vs.\ overexpression permutation null}
 \label{app:permutation}
