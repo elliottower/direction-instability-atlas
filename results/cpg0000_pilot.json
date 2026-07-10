@@ -1,15 +1,36 @@
 {
   "experiment": "G_cpg0000_pilot",
-  "status": "DATA_UNAVAILABLE",
-  "reason": "Cross-cell-line morphological CRISPR data does not exist in the JUMP ecosystem. cpg0000-jump-pilot contains only source_4 (one cell line). cpg0016-jump CRISPR is only source_13 (U2OS). The pre-registration assumed two cell lines; this assumption was incorrect.",
-  "s3_investigation": {
-    "cpg0000_sources": ["source_4"],
-    "cpg0000_crispr_plates": 18,
-    "cpg0000_crispr_genes": 335,
-    "cpg0000_cell_lines": 1,
-    "cpg0016_crispr_source": "source_13 only (U2OS)",
-    "cross_cell_line_crispr_exists": false
+  "status": "COMPLETED",
+  "n": 128,
+  "n_cell_lines": 2,
+  "cell_lines": [
+    "A549",
+    "U2OS"
+  ],
+  "n_a549_plates": 10,
+  "n_u2os_plates": 8,
+  "n_a549_wells": 2599,
+  "n_u2os_wells": 2080,
+  "n_features": 904,
+  "di_definition": "1 - cos(s_A549, s_U2OS) \u2014 degenerate K=2 case",
+  "spearman_rho": -0.264,
+  "p_value": 0.0025982161498596524,
+  "ci_low": -0.4184,
+  "ci_high": -0.0949,
+  "alpha": 0.0167,
+  "verdict": "directional replication",
+  "batch1_comparison": {
+    "batch1_rho": -0.332,
+    "batch1_n": 7653,
+    "batch1_context": "plate replicates within U2OS",
+    "batch3_context": "across A549 and U2OS cell lines"
   },
-  "implication": "The validity crack (plate replicates measure technical reproducibility, not biological context-dependence) remains open. No publicly available dataset provides cross-cell-line CRISPR morphological profiles for directional validation of the essentiality sign-flip.",
-  "generated": "2026-07-09T20:10:00.000000"
+  "limitations": [
+    "K=2 cell lines: DI is a single cosine distance, not averaged over pairs",
+    "No magnitude correction (n too small for meaningful OLS)",
+    "No bootstrap CIs (K=2 has only one bootstrap pattern)",
+    "A549 plates vary in timepoint (96h vs 144h) and antibiotics (some with Puromycin)",
+    "Feature space may differ from cpg0016 production pipeline"
+  ],
+  "generated": "2026-07-09T20:11:20.049327"
 }
