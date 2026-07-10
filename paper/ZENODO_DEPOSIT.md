@@ -19,7 +19,7 @@ direction instability, perturbation biology, LINCS, Tahoe-100M, JUMP Cell Painti
 
 **Description (paste into Zenodo abstract field):**
 
-Cross-modal direction instability (DI) atlas for perturbation biology, spanning three measurement technologies and four perturbation classes. DI quantifies the directional consistency of a perturbation's effects across cellular contexts (DI = 1 - mean pairwise cosine similarity). This deposit provides magnitude-corrected DI values with bootstrap confidence intervals for 8,949 LINCS L1000 drugs, 379 Tahoe-100M drugs, 7,948 JUMP-CP CRISPR knockouts, and 12,590 JUMP-CP ORF overexpressions.
+Cross-modal direction instability (DI) atlas for perturbation biology, spanning three measurement technologies and four perturbation classes. DI quantifies the directional consistency of a perturbation's effects across cellular contexts (DI = 1 - mean pairwise cosine similarity). This deposit provides magnitude-corrected DI values with bootstrap confidence intervals for 8,949 LINCS L1000 drugs, 379 Tahoe-100M drugs, 7,946 JUMP-CP CRISPR knockouts, and 12,590 JUMP-CP ORF overexpressions.
 
 Nine pre-registered hypotheses (frozen at commit SHAs 0d07a01 and a17c125 before analysis) characterize what DI captures: cross-modal concordance between expression and morphology confirms that DI reflects biology (partial rho = 0.19, n = 378, p = 2.1e-4); essential genes show lower DI (rho = -0.33), revealing that functional constraint suppresses context-dependence; knockout and overexpression DI are uncorrelated (rho = 0.01, n = 5,220), establishing DI as mechanism-specific; and expression variance, paralog count, and paralog breadth each explain under 0.4% of DI variance after confound control.
 
@@ -38,7 +38,7 @@ Upload these files/directories as a single .zip or as individual files:
 ### Atlas data (the resource)
 | File | Description | Format |
 |------|-------------|--------|
-| `results/crispr_di.csv` | JUMP-CP CRISPR knockout DI, 7,948 genes | CSV |
+| `results/crispr_di.csv` | JUMP-CP CRISPR knockout DI, 7,946 genes | CSV |
 | `results/orf_di.csv` | JUMP-CP ORF overexpression DI, 12,590 genes | CSV |
 | `results/tahoe_di.csv` | Tahoe-100M drug DI, 379 drugs | CSV |
 | `results/prism_cv.csv` | PRISM viability CV, 1,433 drugs | CSV |

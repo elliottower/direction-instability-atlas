@@ -1,0 +1,40 @@
+\documentclass[11pt]{letter}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+\signature{Elliot Tower \\ Independent researcher \\ \texttt{elliot@elliottower.ai}}
+
+\begin{document}
+
+\begin{letter}{Editorial Board \\ \emph{Patterns} \\ Cell Press}
+
+\opening{Dear Editors,}
+
+I am submitting ``A Pre-Registered Direction Instability Atlas Across Three Perturbation Modalities'' for consideration as an Article in \emph{Patterns}.
+
+The paper presents a direction instability (DI) atlas spanning ${\sim}$55,000 perturbations across three measurement technologies---LINCS L1000 transcriptomics, Tahoe-100M single-cell transcriptomics, and JUMP Cell Painting morphology (CRISPR knockouts and ORF overexpressions)---and characterizes what DI captures through eleven pre-registered hypothesis tests.
+
+DI quantifies whether a perturbation's effects are consistent or context-dependent across cell types, separating directional variability from effect magnitude. A companion study (Zenodo DOI: 10.5281/zenodo.21213699) established the metric's validity; this paper asks what DI measures across modalities and perturbation types.
+
+Three results pass their pre-registered criteria: cross-modal concordance confirms DI reflects biology ($\rho = 0.19$, $n = 378$); drug mechanism-of-action class structures DI variation ($\eta^2 = 0.20$, 80 MoA classes); and the essentiality sign-flip---functional constraint suppresses context-dependence---directionally replicates on cross-cell-line CRISPR data ($\rho = -0.26$). Eight failures constrain the metric: expression variance, paralog buffering, and drug selectivity each fail to explain DI variation. A convergent test on DepMap dependency-score variability fails with the wrong sign, exposing a construct divergence between scalar SD and vector cosine DI.
+
+\emph{Patterns} is a strong fit for three reasons:
+
+\begin{enumerate}
+\item \textbf{Data science methodology applied to biology.} The paper introduces a geometric metric with a formal pre-registration framework that distinguishes passes, failures, and underpowered results. The CI-floor gate that blocks trivially small effects at large $n$ is a general-purpose methodological contribution.
+
+\item \textbf{Atlas-scale resource.} The deposit provides magnitude-corrected DI with bootstrap CIs for ${\sim}$55,000 perturbations, ready for integration with drug-mechanism prediction, gene-function annotation, and screening quality control.
+
+\item \textbf{Transparent reporting of negative results.} Eight of eleven tests fail. The failures are as informative as the successes: they delimit the metric and prevent overclaiming. This aligns with \emph{Patterns}' emphasis on rigorous, reproducible data science.
+\end{enumerate}
+
+All atlas data, experiment results, pre-registration documents, and analysis code are deposited on Zenodo (DOI: 10.5281/zenodo.21223667) under CC-BY-4.0. Source code is available at \url{https://github.com/elliottower/direction-instability-atlas} under MIT.
+
+I used AI assistants (Claude Code by Anthropic; Perplexity AI) for text editing, code drafting/debugging, and as an independent reviewer of a near-final draft. I reviewed and verified all outputs and take full responsibility for the content. Full details are disclosed in the manuscript.
+
+I confirm that this manuscript has not been published previously and is not under consideration at another journal. I have no competing interests and this work received no external funding.
+
+\closing{Sincerely,}
+
+\end{letter}
+\end{document}

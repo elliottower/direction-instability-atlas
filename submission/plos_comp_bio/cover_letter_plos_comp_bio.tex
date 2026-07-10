@@ -1,0 +1,25 @@
+\documentclass[11pt]{letter}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+\signature{Elliot Tower}
+\address{Independent researcher \\ elliot@elliottower.ai}
+\date{July 10, 2026}
+
+\begin{document}
+\begin{letter}{Editors \\ \textit{PLOS Computational Biology}}
+
+\opening{Dear Editors,}
+
+I am submitting ``A Pre-Registered Direction Instability Atlas Across Three Perturbation Modalities'' for consideration as a Research Article in \textit{PLOS Computational Biology}.
+
+Whether a perturbation produces consistent effects across cell types determines if laboratory findings transfer to patients, yet no existing metric separates inconsistent effects from merely weak ones. A companion paper under review at this journal (PCOMPBIOL-S-26-02155) introduced direction instability (DI) and validated it on LINCS L1000 drug data. This paper extends DI across three measurement technologies---L1000 transcriptomics, Tahoe-100M single-cell expression, and JUMP Cell Painting morphology---covering ${\sim}$55,000 drugs and genetic perturbations.
+
+Eleven pre-registered hypothesis tests reveal that DI is structured by pharmacological mechanism: drugs targeting core cellular machinery act consistently across cell types, while receptor-signaling drugs produce context-dependent effects. Essential genes produce stereotyped disruption regardless of cell type. A highly selective drug can still have high DI if its target pathway is wired differently across contexts---selectivity alone does not predict transferability. Eight of eleven tests fail their pre-registered criteria, delimiting what the metric captures and preventing overclaiming.
+
+All data, code, pre-registration documents, and results are deposited on Zenodo (DOI: 10.5281/zenodo.21223667). I am the sole author and declare no competing interests. The manuscript is not under consideration at another journal.
+
+\closing{Thank you,}
+
+\end{letter}
+\end{document}
