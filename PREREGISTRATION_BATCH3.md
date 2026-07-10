@@ -23,13 +23,14 @@ the *confound-controlled* (residualized on n_cell_lines + mean_norm)
 and *permutation-tested* version, whose result was unseen at freeze
 time. Experiment F is therefore exploratory-then-confirmed, not blind.
 
-**Data availability disclosure (Experiment G):** The pre-registration
-assumed cpg0000-jump-pilot contained CRISPR profiles from two cell
-lines (A549 and U2OS). Post-freeze inspection of the S3 bucket
-revealed only source_4 (one cell line). Cross-cell-line morphological
-CRISPR data does not exist in the JUMP ecosystem (cpg0016 CRISPR is
-also single-source, source_13/U2OS). Experiment G cannot be executed
-as designed. This is reported as DATA_UNAVAILABLE.
+**Data availability note (Experiment G):** Cell line assignments for
+cpg0000 plates are not in the S3-hosted profiles but in the companion
+GitHub repository (jump-cellpainting/2024_Chandrasekaran_NatureMethods,
+experiment-metadata.tsv). source_4 contains CRISPR profiles from both
+A549 (10 plates) and U2OS (8 plates), with identical platemap layout.
+An initial data access attempt using incorrect S3 paths returned 404s;
+the correct paths and cell line metadata were identified post-freeze
+and the experiment was executed as designed.
 
 **Relation to earlier batches:** Batch 1 (SHA `0d07a01`) established
 cross-modal concordance, the essentiality sign-flip, mechanism
