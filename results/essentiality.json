@@ -10,8 +10,8 @@
   "criterion": "CI lower > 0.05",
   "alpha": 0.0125,
   "passes": false,
-  "interpretation": "negligible",
+  "interpretation": "biologically meaningful",
   "method": "Pearson-residualize then Spearman, 1 covariate (n_contexts)",
   "essentiality_definition": "fraction of cell lines with Chronos < -0.5",
-  "generated": "2026-07-06T01:43:15.766983"
+  "generated": "2026-08-23T22:18:48.572268"
 }

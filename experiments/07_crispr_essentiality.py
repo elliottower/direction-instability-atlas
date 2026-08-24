@@ -94,9 +94,13 @@ def main():
 
     passes = ci_low > CI_FLOOR and p_val < ALPHA
 
-    if partial_rho >= 0.15:
+    # Magnitude decides the label; the sign is reported separately in partial_spearman_rho.
+    # Comparing the signed value sent rho = -0.33 -- the largest effect in the study -- down
+    # the chain to "negligible", because -0.33 < 0.05.
+    strength = abs(partial_rho)
+    if strength >= 0.15:
         interpretation = "biologically meaningful"
-    elif partial_rho >= 0.05:
+    elif strength >= 0.05:
         interpretation = "weak — statistically detectable but explaining < 2% of variance"
     else:
         interpretation = "negligible"
