@@ -21,7 +21,7 @@ FIGURES = Path(__file__).parent / "figures"
 FIGURES.mkdir(exist_ok=True)
 
 plt.rcParams.update({
-    "font.size": 10,
+    "font.size": 11,
     "axes.labelsize": 11,
     "axes.titlesize": 12,
     "figure.dpi": 300,
@@ -55,17 +55,32 @@ def fig_distributions():
         ("JUMP-CP ORF\n(12,590 genes, plate reps)", orf["di_corrected"].dropna(), "#7570b3"),
     ]
 
-    fig, axes = plt.subplots(1, 3, figsize=(11, 3.5), sharey=False)
+    # A shared x-axis, because three independently auto-scaled axes render the narrowest
+    # distribution as the widest. The window is the 0.5th-99.5th percentile of the pooled
+    # values; ORF's full range is 4.06 against Tahoe's 0.58, so plotting the raw extent
+    # compresses all three into spikes. Points outside the window are counted in-panel
+    # rather than dropped silently.
+    pooled = pd.concat([d for _, d, _ in datasets])
+    lo, hi = pooled.quantile(0.005), pooled.quantile(0.995)
+    bins = np.linspace(lo, hi, 51)
+
+    fig, axes = plt.subplots(1, 3, figsize=(11, 3.5), sharey=False, sharex=True)
 
     for ax, (label, data, color) in zip(axes, datasets):
-        ax.hist(data.values, bins=50, color=color, alpha=0.75, edgecolor="white", linewidth=0.3)
+        ax.hist(data.values, bins=bins, color=color, alpha=0.75, edgecolor="white",
+                linewidth=0.3)
+        ax.set_xlim(lo, hi)
         ax.set_xlabel("DI (corrected)")
-        ax.set_title(label, fontsize=9, linespacing=1.3)
+        ax.set_title(label, fontsize=10, linespacing=1.3)
         ax.axvline(data.median(), color="black", linestyle="--", linewidth=0.8, alpha=0.6,
                    label=f"median = {data.median():.2f}")
         ax.axvline(1.0, color="gray", linestyle=":", linewidth=0.6, alpha=0.4)
-        ax.text(0.97, 0.93, f"median = {data.median():.2f}\nn = {len(data):,}",
-                transform=ax.transAxes, ha="right", va="top", fontsize=7.5)
+        outside = int(((data < lo) | (data > hi)).sum())
+        note = (f"median = {data.median():.2f}\nIQR = {data.quantile(.75)-data.quantile(.25):.3f}"
+                f"\nn = {len(data):,}")
+        if outside:
+            note += f"\n{outside} outside axis"
+        ax.text(0.97, 0.93, note, transform=ax.transAxes, ha="right", va="top", fontsize=9)
 
     axes[0].set_ylabel("Count")
     fig.tight_layout()
@@ -130,7 +145,7 @@ def fig_forest():
         ax.plot(exp["rho"], yp, "o", color=color, markersize=5, zorder=5)
 
         ax.text(-0.52, yp, exp["label"], ha="right", va="center", fontsize=9)
-        ax.text(0.72, yp, f"n = {exp['n']:,}", ha="left", va="center", fontsize=8,
+        ax.text(0.72, yp, f"n = {exp['n']:,}", ha="left", va="center", fontsize=9.5,
                 color="#555555")
 
     ax.axvspan(-0.05, 0.05, color="#e0e0e0", alpha=0.5, zorder=0)
@@ -146,7 +161,7 @@ def fig_forest():
                linestyle="--", label="Exploratory"),
         plt.Rectangle((0, 0), 1, 1, fc="#e0e0e0", alpha=0.5, label="±0.05 CI floor"),
     ]
-    ax.legend(handles=legend_elements, loc="upper left", fontsize=8,
+    ax.legend(handles=legend_elements, loc="upper left", fontsize=9.5,
               framealpha=0.9, edgecolor="#cccccc")
 
     ax.set_xlabel("Partial Spearman ρ", fontsize=11)
@@ -192,7 +207,7 @@ def fig_essentiality():
     partial_n = ess_result["n"]
     ax.set_title(f"partial ρ = {partial_rho:.3f}, n = {partial_n:,}", fontsize=10, style="italic")
     ax.text(0.97, 0.97, "Pre-registered prediction: positive\nObserved: negative (sign-flip)",
-            transform=ax.transAxes, ha="right", va="top", fontsize=8,
+            transform=ax.transAxes, ha="right", va="top", fontsize=9.5,
             bbox=dict(boxstyle="round,pad=0.3", facecolor="wheat", alpha=0.5))
 
     fig.savefig(FIGURES / "fig_essentiality_scatter.pdf")
@@ -231,7 +246,7 @@ def fig_ko_vs_oe():
     ax.set_ylabel("Overexpression DI (JUMP-CP ORF, corrected)")
     ax.set_title(f"ρ = {rho:.3f}, n = {len(both):,}", fontsize=10, style="italic")
     ax.text(0.03, 0.97, "DI is mechanism-specific:\nKO and OE produce\nunrelated DI values",
-            transform=ax.transAxes, ha="left", va="top", fontsize=8,
+            transform=ax.transAxes, ha="left", va="top", fontsize=9.5,
             bbox=dict(boxstyle="round,pad=0.3", facecolor="#e0e0e0", alpha=0.5))
 
     fig.savefig(FIGURES / "fig_ko_vs_oe_scatter.pdf")
