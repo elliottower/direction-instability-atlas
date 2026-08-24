@@ -18,7 +18,9 @@ def direction_instability(signatures: np.ndarray) -> float:
         signatures: (n_contexts, n_features) perturbation response vectors.
 
     Returns:
-        Scalar in [0, 2]. Low = stable direction. High = context-dependent.
+        Scalar in [0, K/(K-1)] for K = n_contexts, so the upper bound is 2 at K = 2,
+        1.25 at K = 5, and approaches 1 as K grows: K unit vectors cannot be mutually
+        anti-correlated. Low = stable direction. High = context-dependent.
     """
     norms = np.linalg.norm(signatures, axis=1, keepdims=True)
     norms = np.maximum(norms, 1e-10)
