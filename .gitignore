@@ -20,3 +20,7 @@ paper/*.fls
 paper/*.fdb_latexmk
 paper/*.bbl
 paper/*.blg
+
+# Submission materials: cover letters, fee-assistance letters, deposit
+# packets. Built from the repository, sent to venues, never tracked.
+submission/
