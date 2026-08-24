@@ -1,7 +1,7 @@
 {
-  "title": "A Pre-Registered Direction Instability Atlas Across Three Perturbation Modalities",
+  "title": "An Atlas of Cross-Context Consistency for 55,000 Drug and Genetic Perturbations",
   "upload_type": "software",
-  "description": "Cross-modal direction instability (DI) atlas for perturbation biology, spanning three measurement technologies and four perturbation classes. DI quantifies the directional consistency of a perturbation's effects across cellular contexts (DI = 1 - mean pairwise cosine similarity). This deposit provides magnitude-corrected DI values with bootstrap confidence intervals for 8,949 LINCS L1000 drugs, 379 Tahoe-100M drugs, 7,948 JUMP-CP CRISPR knockouts, and 12,590 JUMP-CP ORF overexpressions.\n\nEight pre-registered primary hypotheses and one exploratory analysis (frozen at commit SHAs 0d07a01 and a17c125 before analysis) characterize what DI captures: cross-modal concordance between expression and morphology confirms that DI reflects biology (partial rho = 0.19, n = 378, p = 2.1e-4); essential genes show lower DI (rho = -0.33), revealing that functional constraint suppresses context-dependence; knockout and overexpression DI are uncorrelated (rho = 0.01, n = 5,220), establishing DI as mechanism-specific; and expression variance, paralog count, and paralog breadth each explain under 0.4% of DI variance after confound control.\n\nThis deposit contains the atlas data files (CSV), all experiment result files (JSON), pre-registration documents (frozen before analysis), the full analysis codebase (Python), and the manuscript.",
+  "description": "Direction instability (DI) measures whether a perturbation's effects point the same way across contexts, as the mean pairwise cosine dissimilarity among its signatures. DI is the complement of pairwise phase consistency (Vinck et al. 2010, NeuroImage); this deposit applies it at atlas scale. It provides magnitude-corrected DI with bootstrap confidence intervals for 8,949 LINCS L1000 drugs, 379 Tahoe-100M drugs, 7,946 JUMP-CP CRISPR knockouts, and 12,590 JUMP-CP ORF overexpressions, alongside 25,254 JUMP-CP compounds from the companion deposit.\n\nEleven hypotheses were pre-registered across three frozen analysis plans (commit SHAs 0d07a01, a17c125, 4c34699) before computation. Three pass and eight fail. The principal positive result is that drug mechanism-of-action class explains 20% of residualized DI variance (eta-squared = 0.201, permutation p < 0.001), separating core-machinery inhibitors (mTOR, HDAC; low DI) from receptor-signaling drugs (serotonin and histamine agonists; high DI). DI is concordant across measurement modalities (partial rho = 0.19, n = 378). Knockout and overexpression DI for the same gene are unrelated (rho = 0.011, n = 5,220), and expression variance, paralog count and paralog expression breadth each explain under 0.4% of DI variance after confound control.\n\nDI computed over JUMP-CP plate replicates indexes technical reproducibility within a single cell line rather than context-dependence across cell types. On those values essentiality breadth predicts lower DI, the opposite of the registered prediction, at partial rho = -0.332, attenuating to rho = -0.189 once signal strength is also controlled; the direction replicates on a two-cell-line CRISPR pilot (rho = -0.264, n = 128).\n\nThe deposit contains the atlas data files (CSV), all experiment result files (JSON), the three frozen pre-registration documents, the full analysis codebase (Python), and the manuscript.",
   "creators": [
     {
       "name": "Tower, Elliot",
@@ -14,7 +14,12 @@
     "perturbation biology",
     "LINCS",
     "JUMP-CP",
-    "cross-modal"
+    "cross-modal",
+    "pre-registration",
+    "context-dependence",
+    "gene essentiality",
+    "mechanism of action",
+    "Tahoe-100M"
   ],
   "related_identifiers": [
     {
@@ -24,7 +29,12 @@
     },
     {
       "identifier": "10.5281/zenodo.21213699",
-      "relation": "isPartOf",
+      "relation": "references",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.21284088",
+      "relation": "references",
       "scheme": "doi"
     }
   ]
