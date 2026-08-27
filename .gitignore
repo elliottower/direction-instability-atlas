@@ -24,3 +24,16 @@ paper/*.blg
 # Submission materials: cover letters, fee-assistance letters, deposit
 # packets. Built from the repository, sent to venues, never tracked.
 submission/
+
+# Submission materials — never tracked (private journal correspondence)
+SUBMISSION_STATUS.md
+SUBMISSION.md
+SUBMISSION_TODO.md
+submission/
+submissions/
+cover_letter*
+cover-letter*
+COVER_LETTER*
+fee_waiver*
+fee-waiver*
+*_submission.zip
