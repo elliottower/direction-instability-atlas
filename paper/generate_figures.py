@@ -12,6 +12,7 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -21,9 +22,12 @@ FIGURES = Path(__file__).parent / "figures"
 FIGURES.mkdir(exist_ok=True)
 
 plt.rcParams.update({
-    "font.size": 11,
-    "axes.labelsize": 11,
-    "axes.titlesize": 12,
+    "font.size": 12.5,
+    "axes.labelsize": 12.5,
+    "axes.titlesize": 13,
+    "xtick.labelsize": 11.5,
+    "ytick.labelsize": 11.5,
+    "legend.fontsize": 11.5,
     "figure.dpi": 300,
     "savefig.bbox": "tight",
     "savefig.pad_inches": 0.1,
@@ -71,7 +75,7 @@ def fig_distributions():
                 linewidth=0.3)
         ax.set_xlim(lo, hi)
         ax.set_xlabel("DI (corrected)")
-        ax.set_title(label, fontsize=10, linespacing=1.3)
+        ax.set_title(label, fontsize=12, linespacing=1.3)
         ax.axvline(data.median(), color="black", linestyle="--", linewidth=0.8, alpha=0.6,
                    label=f"median = {data.median():.2f}")
         ax.axvline(1.0, color="gray", linestyle=":", linewidth=0.6, alpha=0.4)
@@ -80,7 +84,12 @@ def fig_distributions():
                 f"\nn = {len(data):,}")
         if outside:
             note += f"\n{outside} outside axis"
-        ax.text(0.97, 0.93, note, transform=ax.transAxes, ha="right", va="top", fontsize=9)
+        ax.text(0.97, 0.95, note, transform=ax.transAxes, ha="right", va="top",
+                fontsize=11,
+                bbox=dict(boxstyle="round,pad=0.35", facecolor="white",
+                          edgecolor="0.8", linewidth=0.5, alpha=0.92))
+        # headroom so the annotation never overlaps the tallest bar
+        ax.set_ylim(0, ax.get_ylim()[1] * 1.32)
 
     axes[0].set_ylabel("Count")
     fig.tight_layout()
@@ -144,8 +153,8 @@ def fig_forest():
                 linestyle=style, solid_capstyle="butt")
         ax.plot(exp["rho"], yp, "o", color=color, markersize=5, zorder=5)
 
-        ax.text(-0.52, yp, exp["label"], ha="right", va="center", fontsize=9)
-        ax.text(0.72, yp, f"n = {exp['n']:,}", ha="left", va="center", fontsize=9.5,
+        ax.text(-0.52, yp, exp["label"], ha="right", va="center", fontsize=12.5)
+        ax.text(0.72, yp, f"n = {exp['n']:,}", ha="left", va="center", fontsize=11.5,
                 color="#555555")
 
     ax.axvspan(-0.05, 0.05, color="#e0e0e0", alpha=0.5, zorder=0)
@@ -161,10 +170,13 @@ def fig_forest():
                linestyle="--", label="Exploratory"),
         plt.Rectangle((0, 0), 1, 1, fc="#e0e0e0", alpha=0.5, label="±0.05 CI floor"),
     ]
-    ax.legend(handles=legend_elements, loc="upper left", fontsize=9.5,
-              framealpha=0.9, edgecolor="#cccccc")
+    # Legend below the axes: every in-axes corner collides with a confidence
+    # interval at some point, and a legend sitting on the data reads as careless.
+    ax.legend(handles=legend_elements, loc="upper center",
+              bbox_to_anchor=(0.5, -0.16), ncol=4, fontsize=10.5,
+              frameon=False, handletextpad=0.6, columnspacing=1.6)
 
-    ax.set_xlabel("Partial Spearman ρ", fontsize=11)
+    ax.set_xlabel("Partial Spearman ρ", fontsize=12.5)
     ax.set_xlim(-0.52, 0.72)
     ax.set_ylim(min(y_positions) - 0.5, max(y_positions) + 0.8)
     ax.set_yticks([])
@@ -176,6 +188,7 @@ def fig_forest():
     fig.savefig(FIGURES / "fig_forest_plot.png")
     plt.close(fig)
     print("  Saved.")
+
 
 
 def fig_essentiality():
@@ -192,22 +205,37 @@ def fig_essentiality():
     rho, p = stats.spearmanr(x, y)
 
     fig, ax = plt.subplots(figsize=(5.5, 4.5))
-    ax.scatter(x, y, s=1.5, alpha=0.15, color="#2c7fb8", rasterized=True)
+    # Hexbin rather than scatter: 7,653 points pile at breadth 0 and 1, and a
+    # scatter renders both piles as solid colour, so density is unreadable.
+    # The y-window is the 0.5th-99.5th percentile; di_corrected is a residual
+    # plus intercept and unbounded, so a handful of extremes otherwise set the
+    # scale. Points outside are counted in-panel rather than dropped silently.
+    ylo, yhi = np.quantile(y, 0.005), np.quantile(y, 0.995)
+    inside = (y >= ylo) & (y <= yhi)
+    n_out = int((~inside).sum())
+    # Log colour scale: the breadth-0 pile holds >600 genes in one bin while most
+    # bins hold a handful, so a linear scale renders everything but the pile white.
+    ax.scatter(x[inside], y[inside], s=1.5, alpha=0.15, color="#2c7fb8",
+               rasterized=True)
 
     z = np.polyfit(x, y, 1)
     xline = np.linspace(0, x.max(), 100)
-    ax.plot(xline, np.polyval(z, xline), color="#d95f02", linewidth=1.5, zorder=5)
+    ax.plot(xline, np.polyval(z, xline), color="#d95f02", linewidth=1.8, zorder=5)
+    ax.set_ylim(ylo, yhi)
+    if n_out:
+        ax.text(0.03, 0.03, f"{n_out} genes outside axis", transform=ax.transAxes,
+                ha="left", va="bottom", fontsize=10, color="0.35")
 
-    ax.set_xlabel("Essentiality breadth\n(fraction of cell lines, Chronos < −0.5)", fontsize=10)
+    ax.set_xlabel("Essentiality breadth\n(fraction of cell lines, Chronos < −0.5)", fontsize=12)
     ax.set_ylabel("Direction instability (corrected)")
     # Title shows partial Spearman (controlling for n_contexts) to match paper text
     with open(RESULTS / "essentiality.json") as f:
         ess_result = json.load(f)
     partial_rho = ess_result["partial_spearman_rho"]
     partial_n = ess_result["n"]
-    ax.set_title(f"partial ρ = {partial_rho:.3f}, n = {partial_n:,}", fontsize=10, style="italic")
+    ax.set_title(f"partial ρ = {partial_rho:.3f}, n = {partial_n:,}", fontsize=12, style="italic")
     ax.text(0.97, 0.97, "Pre-registered prediction: positive\nObserved: negative (sign-flip)",
-            transform=ax.transAxes, ha="right", va="top", fontsize=9.5,
+            transform=ax.transAxes, ha="right", va="top", fontsize=11.5,
             bbox=dict(boxstyle="round,pad=0.3", facecolor="wheat", alpha=0.5))
 
     fig.savefig(FIGURES / "fig_essentiality_scatter.pdf")
@@ -232,7 +260,11 @@ def fig_ko_vs_oe():
     clip_lo = max(0, both[["ko", "oe"]].quantile(0.005).min() * 0.95)
 
     fig, ax = plt.subplots(figsize=(5, 4.5))
-    ax.scatter(both["ko"], both["oe"], s=1.5, alpha=0.12, color="#7570b3", rasterized=True)
+    # 5,220 points overlap heavily near (0.95, 1.05), where a scatter
+    # renders as solid colour and hides how much of the data sits there.
+    inb = ((both["ko"].between(clip_lo, clip_hi)) & (both["oe"].between(clip_lo, clip_hi)))
+    ax.scatter(both["ko"], both["oe"], s=1.5, alpha=0.12, color="#7570b3",
+               rasterized=True)
 
     z = np.polyfit(both["ko"], both["oe"], 1)
     xline = np.linspace(clip_lo, clip_hi, 100)
@@ -244,11 +276,7 @@ def fig_ko_vs_oe():
 
     ax.set_xlabel("Knockout DI (JUMP-CP CRISPR, corrected)")
     ax.set_ylabel("Overexpression DI (JUMP-CP ORF, corrected)")
-    ax.set_title(f"ρ = {rho:.3f}, n = {len(both):,}", fontsize=10, style="italic")
-    ax.text(0.03, 0.97, "DI is mechanism-specific:\nKO and OE produce\nunrelated DI values",
-            transform=ax.transAxes, ha="left", va="top", fontsize=9.5,
-            bbox=dict(boxstyle="round,pad=0.3", facecolor="#e0e0e0", alpha=0.5))
-
+    ax.set_title(f"ρ = {rho:.3f}, n = {len(both):,}", fontsize=12, style="italic")
     fig.savefig(FIGURES / "fig_ko_vs_oe_scatter.pdf")
     fig.savefig(FIGURES / "fig_ko_vs_oe_scatter.png")
     plt.close(fig)

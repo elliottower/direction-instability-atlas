@@ -53,7 +53,8 @@ No DI values have been computed on new datasets. All numbers are metadata-only.
 - **Format:** Parquet, well-level profiles (post-sphering, harmony, PCA)
 - **Size on disk:** 76.2 MB
 - **Shape:** 51,185 wells × 259 features (PCA-reduced)
-- **Perturbations:** 7,977 (7,948 with >= 5 reps)
+- **Perturbations:** 7,977 (7,948 met the >= 5 replicate threshold at
+  pre-registration freeze; 7,946 were analyzable after retrieval and join)
 - **Plates:** 148 (all source_13)
 - **Gene overlap with ORF:** 5,220 genes with >= 5 reps in both
 - **Identifiers:** JCP2022 IDs → gene symbols via metadata

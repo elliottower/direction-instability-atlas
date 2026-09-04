@@ -37,3 +37,11 @@ COVER_LETTER*
 fee_waiver*
 fee-waiver*
 *_submission.zip
+
+# Peer-review correspondence and internal audits — never tracked
+reviews/
+
+# Build and exploration artifacts
+paper/atlas_diff_*
+paper/figures/ga_option_*
+paper/generate_ga_option*.py
