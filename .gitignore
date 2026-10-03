@@ -41,6 +41,13 @@ fee-waiver*
 # Peer-review correspondence and internal audits — never tracked
 reviews/
 
+# Drafts before v6 stay on disk and are not published
+paper/atlas_paper_v1.*
+paper/atlas_paper_v2.*
+paper/atlas_paper_v3.*
+paper/atlas_paper_v4*
+paper/atlas_paper_v5*
+
 # Build and exploration artifacts
 paper/atlas_diff_*
 paper/figures/ga_option_*
